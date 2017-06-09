@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const express = require('express');
 const graphql = require('./graphql');
 const compression = require('compression');
@@ -10,10 +14,6 @@ const db = require('./db');
 const app = express();
 
 const { Serialize, Deserialize, Verify, SignUp, SignIn, SignOut } = require('./users');
-
-if(process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
 
 // Middleware
 // ---------------------------------------------
@@ -44,9 +44,9 @@ app.use(passport.session());
 // API
 // ---------------------------------------------
 
-app.post('/api/users', SignUp);
-app.post('/api/users/login', passport.authenticate('local'), SignIn);
-app.post('/api/users/logout', SignOut);
+app.post('/users', SignUp);
+app.post('/users/login', passport.authenticate('local'), SignIn);
+app.post('/users/logout', SignOut);
 
 app.use('/graphql', graphql);
 
