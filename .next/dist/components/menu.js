@@ -26,7 +26,7 @@ var _jsxFileName = '/Users/runemadsen/Projects/artefact-next/components/menu.js'
 
 exports.default = function () {
   return _react2.default.createElement('nav', {
-    'data-jsx': 2042167145,
+    'data-jsx': 2983597894,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 6
@@ -40,7 +40,7 @@ exports.default = function () {
       fileName: _jsxFileName,
       lineNumber: 8
     }
-  }, _react2.default.createElement('a', { id: 'logo', 'data-jsx': 2042167145,
+  }, _react2.default.createElement('a', { id: 'logo', 'data-jsx': 2983597894,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 8
@@ -50,7 +50,7 @@ exports.default = function () {
       lineNumber: 10
     }
   }, _react2.default.createElement('a', {
-    'data-jsx': 2042167145,
+    'data-jsx': 2983597894,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 10
@@ -60,7 +60,7 @@ exports.default = function () {
       lineNumber: 11
     }
   }, _react2.default.createElement('a', {
-    'data-jsx': 2042167145,
+    'data-jsx': 2983597894,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 11
@@ -70,7 +70,7 @@ exports.default = function () {
       lineNumber: 12
     }
   }, _react2.default.createElement('a', {
-    'data-jsx': 2042167145,
+    'data-jsx': 2983597894,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 12
@@ -80,13 +80,13 @@ exports.default = function () {
       lineNumber: 13
     }
   }, _react2.default.createElement('a', {
-    'data-jsx': 2042167145,
+    'data-jsx': 2983597894,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 13
     }
   }, 'Profile'))), _react2.default.createElement(_style2.default, {
-    styleId: 2042167145,
-    css: 'nav[data-jsx="2042167145"]{border-bottom:1px solid $grayLight;height:75px}nav[data-jsx="2042167145"] a[data-jsx="2042167145"]{margin-right:1em;display:inline-block;-webkit-text-decoration:none;text-decoration:none}nav[data-jsx="2042167145"] #logo[data-jsx="2042167145"]{color:#333;margin-top:0.55em;font-size:2em;font-weight:bold}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb21wb25lbnRzL21lbnUuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL3J1bmVtYWRzZW4vUHJvamVjdHMvYXJ0ZWZhY3QtbmV4dCIsInNvdXJjZXNDb250ZW50IjpbXX0= */\n/*@ sourceURL=components/menu.js */'
+    styleId: 2983597894,
+    css: 'nav[data-jsx="2983597894"]{border-bottom:1px solid $grayLight;height:75px}nav[data-jsx="2983597894"] a[data-jsx="2983597894"]{margin-right:1em;display:inline-block;-webkit-text-decoration:none;text-decoration:none}nav[data-jsx="2983597894"] #logo[data-jsx="2983597894"]{color:#333;margin-top:0.55em;font-size:2em;font-weight:bold}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb21wb25lbnRzL21lbnUuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL3J1bmVtYWRzZW4vUHJvamVjdHMvYXJ0ZWZhY3QtbmV4dCIsInNvdXJjZXNDb250ZW50IjpbXX0= */\n/*@ sourceURL=components/menu.js */'
   }));
 };

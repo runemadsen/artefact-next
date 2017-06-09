@@ -17,9 +17,6 @@ export default () => (
         border-bottom: 1px solid $grayLight;
         height: 75px;
       }
-      /*.container {
-        height: 100%;
-      }*/
       nav a {
         margin-right: 1em;
         display: inline-block;

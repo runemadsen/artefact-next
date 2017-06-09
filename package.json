@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"next\" \"./node_modules/.bin/nodemon --watch api api/server.js\""
+    "dev": "concurrently --kill-others \"next\" \"./node_modules/.bin/nodemon --watch api api/server.js\"",
+    "migrate": "node migrations/migrate.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
     "express-graphql": "^0.6.6",
     "graphql": "^0.10.1",
     "next": "^2.4.1",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
