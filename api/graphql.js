@@ -21,7 +21,9 @@ var schema = new GraphQLSchema({
   })
 });
 
-export default graphqlHTTP({
+var gql = graphqlHTTP({
   schema: schema,
   graphiql: true
 });
+
+module.exports = gql;

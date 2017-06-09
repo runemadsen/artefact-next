@@ -1,3 +1,4 @@
+var path = require('path');
 var _ = require('lodash');
 var postgrator = require('postgrator');
 
@@ -5,12 +6,10 @@ if(process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-var db = process.env.DATABASE_URL;
-
 postgrator.setConfig({
-  migrationDirectory: __dirname,
+  migrationDirectory: path.join(__dirname, 'sql'),
   driver: 'pg',
-  connectionString: db
+  connectionString: process.env.DATABASE_URL
 });
 
 postgrator.migrate('max', function(err, migrations) {

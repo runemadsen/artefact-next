@@ -10,18 +10,18 @@ function HashOptions() {
   }
 }
 
-export function Serialize(user, cb) {
+function Serialize(user, cb) {
   cb(null, user.id);
 }
 
-export function Deserialize(id, cb) {
-  db.find('users', { id:id, opts:{ limit:1} }), function (err, rows) {
+function Deserialize(id, cb) {
+  db.find('users', { id:id, opts:{ limit:1} }, function (err, rows) {
     if(err) { return cb(err); }
     cb(null, rows[0]);
   });
 }
 
-export function Verify(username, password, cb) {
+function Verify(username, password, cb) {
 
   db.find('users', { username:username, opts:{ limit: 1 } }, function(err, rows) {
 
@@ -49,7 +49,7 @@ export function Verify(username, password, cb) {
   });
 };
 
-export function SignUp(req, res) {
+function SignUp(req, res) {
 
   db.create('users', req.body.user, function(e, rows) {
     if(e || !rows) {
@@ -65,13 +65,20 @@ export function SignUp(req, res) {
 
 }
 
-export function SignIn(req, res) {
+function SignIn(req, res) {
   // Authentication happens in the passport.authenticate middleware handler
   // set up in server.js
   return res.status(200).json({message: "User logged in"});
 }
 
-export function SignOut(req, res) {
+function SignOut(req, res) {
   req.logout();
   return res.status(200).json({message: "User logged out"});
 }
+
+module.exports.Serialize = Serialize;
+module.exports.Deserialize = Deserialize;
+module.exports.Verify = Verify;
+module.exports.SignUp = SignUp;
+module.exports.SignIn = SignIn;
+module.exports.SignOut = SignOut;

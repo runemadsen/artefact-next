@@ -9,8 +9,11 @@ const methodOverride = require('method-override');
 const db = require('./db');
 const app = express();
 
-const { Serialize, Deserialize, Verify } = require('./users');
+const { Serialize, Deserialize, Verify, SignUp, SignIn, SignOut } = require('./users');
 
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 // Middleware
 // ---------------------------------------------
