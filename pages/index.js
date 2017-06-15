@@ -3,6 +3,7 @@ import Header from '../components/header'
 import Container from '../components/container'
 import Menu from '../components/menu'
 import SignUp from '../components/signup'
+import fetch from 'isomorphic-unfetch'
 
 const Index = () => (
   <div>
@@ -20,5 +21,23 @@ const Index = () => (
     </Container>
   </div>
 )
+
+Index.getInitialProps = async ({ req }) => {
+  const res = await fetch(API_BASE_URL + '/graphql', {
+    method: 'POST',
+    body: `{
+      query {
+        viewer {
+          name
+          id
+        }
+      }
+    }`
+  })
+  const json = await res.json()
+  // handle HTTP error!
+  // handle error in JSON!
+  return { stars: json.data }
+}
 
 export default Index
