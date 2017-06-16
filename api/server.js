@@ -31,6 +31,17 @@ app.use(cors({
 // Auth
 // ---------------------------------------------
 
+// If sessionId is provided in header (it came from next server via client cookie)
+// add it to a cookie.
+app.use(function(req, res, next) {
+  const sessionIdHeader = req.get('X-Session-Id');
+  if(sessionIdHeader) {
+    req.signedCookies = req.signedCookies || {};
+    req.signedCookies['artefact.sid'] = sessionIdHeader;
+  }
+  next();
+});
+
 // Use sessions
 app.use(session({
   name: 'artefact.sid',

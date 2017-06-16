@@ -50,7 +50,8 @@ const Index = (props) => {
 }
 
 Index.getInitialProps = async ({ req }) => {
-  const res = await graphqlQuery(`{
+
+  const res = await graphqlQuery(req, `{
     viewer {
       id
       username

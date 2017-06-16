@@ -6,20 +6,22 @@ class Database {
 
   static find(table, attr, cb) {
 
-    opts = attr.opts || {};
+    const opts = attr.opts || {};
     delete attr.opts;
 
     var query = squel.select().from(table);
-    _.each(attrs, function(v, k) {
-      if(_.isArray(v)) {
-        query = query.where(k + ' IN ?', v);
+
+    Object.keys(attr).forEach(function(key) {
+      var value = attr[key];
+      if(Array.isArray(value)) {
+        query = query.where(key + ' IN ?', value);
       }
       else {
-        query = query.where(k + ' = ?', v);
+        query = query.where(key + ' = ?', value);
       }
     });
 
-    if(opts.limit) query = query.limit(opt.limit)
+    if(opts.limit) query = query.limit(opts.limit)
 
     query = query.toParam();
 

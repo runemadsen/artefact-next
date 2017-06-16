@@ -9,8 +9,8 @@ export default (props) => {
       <Link href="/about"><a id="logo">Artefact</a></Link>
       { props.viewer ? <Link href="/works"><a>Works</a></Link> : null }
       { props.viewer ? <Link href="/people"><a>People</a></Link> : null }
-      { props.viewer ? <Link href="/users/logout"><a>Sign out</a></Link> : null }
       { props.viewer ? <Link href="/user"><a>Profile</a></Link> : null }
+      { props.viewer ? <Link href="/users/logout"><a>Sign out</a></Link> : null }
     </Container>
     <style jsx>{`
       nav {

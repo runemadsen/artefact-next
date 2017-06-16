@@ -22,9 +22,9 @@ const postRequest = async (url, body) => {
 // GraphQL Query
 // -----------------------------------------------------
 
-const graphqlQuery = async (query) => {
+const graphqlQuery = async (req, query) => {
 
-  const res = await fetch(API_BASE_URL + '/graphql', {
+  let params = {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -34,7 +34,15 @@ const graphqlQuery = async (query) => {
     body: JSON.stringify({
       query: query
     })
-  })
+  }
+
+  // If this call is made from the server, grab the next.js cookie
+  // holding the sessionId, and pass it to the API via a header.
+  if(req && req.cookies && req.cookies['artefact.sid']) {
+    params.headers['X-Session-Id'] = req.cookies['artefact.sid'];
+  }
+
+  const res = await fetch(API_BASE_URL + '/graphql', params)
 
   return res
 }
