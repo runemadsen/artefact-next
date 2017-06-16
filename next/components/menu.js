@@ -2,15 +2,15 @@ import React from 'react'
 import Link from 'next/link'
 import Container from './container'
 
-export default () => (
-  <nav>
+export default (props) => {
+
+  return (<nav>
     <Container>
       <Link href="/about"><a id="logo">Artefact</a></Link>
-      ONLY SHOW IF USER IS LOGGED IN >
-      <Link href="/works"><a>Works</a></Link>
-      <Link href="/people"><a>People</a></Link>
-      <Link href="/users/logout"><a>Sign out</a></Link>
-      <Link href="/user"><a>Profile</a></Link>
+      { props.viewer ? <Link href="/works"><a>Works</a></Link> : null }
+      { props.viewer ? <Link href="/people"><a>People</a></Link> : null }
+      { props.viewer ? <Link href="/users/logout"><a>Sign out</a></Link> : null }
+      { props.viewer ? <Link href="/user"><a>Profile</a></Link> : null }
     </Container>
     <style jsx>{`
       nav {
@@ -30,4 +30,4 @@ export default () => (
       }
     `}</style>
   </nav>
-)
+)}

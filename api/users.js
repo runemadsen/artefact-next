@@ -65,7 +65,6 @@ function SignUp(req, res) {
     attrs.password_salt = hashed.salt;
 
     db.create('users', attrs, function(e, rows) {
-      console.log(e, rows)
       if(e || !rows) {
         return res.status(500).json({message: "Could not create user"});
       }
@@ -73,7 +72,12 @@ function SignUp(req, res) {
         if(e) {
           return res.status(500).json({message: "Could not login user"});
         }
-        return res.status(201).json({message: "User created"});
+        return res.status(201).json({
+          data: {
+            sessionId: req.sessionID
+          },
+          message: "User created"
+        });
       });
     });
 
