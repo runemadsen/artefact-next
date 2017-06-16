@@ -16,10 +16,10 @@ const onSignUp = async (username, password, email) => {
       email: email
     }
   })
-  const json = await res.json()
-  const res2 = await postRequest('/session', {
-    sessionId: json.data.sessionId
-  })
+  // const json = await res.json()
+  // const res2 = await postRequest('/session', {
+  //   sessionId: json.data.sessionId
+  // })
 
   // Handle error!
 

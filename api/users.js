@@ -1,5 +1,6 @@
 const db = require('./db');
 const auth = require('passport-local-authenticate');
+const signature = require('cookie-signature');
 
 function HashOptions() {
   return {
@@ -69,12 +70,18 @@ function SignUp(req, res) {
         return res.status(500).json({message: "Could not create user"});
       }
       req.login(rows[0], function(e) {
+
         if(e) {
           return res.status(500).json({message: "Could not login user"});
         }
+
+        // Because of a pretty stupid way of writing express-session, there's
+        // no way of getting to the signed session. So hey, let's do it again
+        // so the client can set a cookie for next.js too.
+        const signedSessionId = 's:' + signature.sign(req.sessionID, process.env.SESSION_SECRET);
         return res.status(201).json({
           data: {
-            sessionId: req.sessionID
+            sessionId: signedSessionId
           },
           message: "User created"
         });
@@ -89,8 +96,9 @@ function SignIn(req, res) {
 }
 
 function SignOut(req, res) {
-  req.logout();
-  return res.status(200).json({message: "User logged out"});
+  req.session.destroy(function(err) {
+    res.status(200).json({message: "User logged out"});
+  });
 }
 
 module.exports.Serialize = Serialize;

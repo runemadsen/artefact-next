@@ -1,16 +1,29 @@
 import React from 'react'
 import Link from 'next/link'
 import Container from './container'
+import Router from 'next/router'
+import { postRequest } from '../utils/api'
+
+const signOut = (e) => {
+
+  e.preventDefault()
+
+  postRequest(API_BASE_URL + '/users/logout')
+    .then(res => {
+      console.log(res)
+      Router.push('/')
+    })
+}
 
 export default (props) => {
 
   return (<nav>
     <Container>
-      <Link href="/about"><a id="logo">Artefact</a></Link>
+      <Link href="/"><a id="logo">Artefact</a></Link>
       { props.viewer ? <Link href="/works"><a>Works</a></Link> : null }
       { props.viewer ? <Link href="/people"><a>People</a></Link> : null }
       { props.viewer ? <Link href="/user"><a>Profile</a></Link> : null }
-      { props.viewer ? <Link href="/users/logout"><a>Sign out</a></Link> : null }
+      { props.viewer ? <a href="#" onClick={signOut}>Sign out</a> : null }
     </Container>
     <style jsx>{`
       nav {

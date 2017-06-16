@@ -32,12 +32,12 @@ app.use(cors({
 // ---------------------------------------------
 
 // If sessionId is provided in header (it came from next server via client cookie)
-// add it to a cookie.
+// add it to the cookies for the req. We might need to not override this if there
+// are other cookies.
 app.use(function(req, res, next) {
   const sessionIdHeader = req.get('X-Session-Id');
   if(sessionIdHeader) {
-    req.signedCookies = req.signedCookies || {};
-    req.signedCookies['artefact.sid'] = sessionIdHeader;
+    req.headers.cookie = 'artefact.sid='+ sessionIdHeader
   }
   next();
 });
