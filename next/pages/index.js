@@ -3,9 +3,26 @@ import Header from '../components/header'
 import Container from '../components/container'
 import Menu from '../components/menu'
 import SignUp from '../components/signup'
+import SignIn from '../components/signin'
 import Router from 'next/router'
 import { graphqlQuery, postRequest } from '../utils/api'
 import fetch from 'isomorphic-unfetch'
+
+const onSignIn = async (username, password) => {
+
+  const res = await postRequest(API_BASE_URL + '/users/login', {
+    username: username,
+    password: password
+  })
+  const json = await res.json()
+  const res2 = await postRequest('/session', {
+    sessionId: json.data.sessionId
+  })
+
+  // Handle error!
+
+  Router.push('/')
+}
 
 const onSignUp = async (username, password, email) => {
 
@@ -16,10 +33,10 @@ const onSignUp = async (username, password, email) => {
       email: email
     }
   })
-  // const json = await res.json()
-  // const res2 = await postRequest('/session', {
-  //   sessionId: json.data.sessionId
-  // })
+  const json = await res.json()
+  const res2 = await postRequest('/session', {
+    sessionId: json.data.sessionId
+  })
 
   // Handle error!
 
@@ -35,8 +52,7 @@ const Index = (props) => {
   else {
     greeting = (<div>
       <SignUp onSubmit={onSignUp} />
-      <h2>Sign in</h2>
-      <p>Sign in form here</p>
+      <SignIn onSubmit={onSignIn} />
     </div>)
   }
 
