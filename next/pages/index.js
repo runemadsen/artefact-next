@@ -19,8 +19,6 @@ const onSignIn = async (username, password) => {
     sessionId: json.data.sessionId
   })
 
-  // Handle error!
-
   Router.push('/')
 }
 
@@ -37,8 +35,6 @@ const onSignUp = async (username, password, email) => {
   const res2 = await postRequest('/session', {
     sessionId: json.data.sessionId
   })
-
-  // Handle error!
 
   Router.push('/')
 }
