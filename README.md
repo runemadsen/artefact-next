@@ -23,3 +23,5 @@ Then, migrate the database:
 ## GraphQL API
 
 To read up on why we use connections, edges, and nodes, take a look at [this article](http://graphql.org/learn/pagination/).
+
+To investigate the graphql API, visit `localhost:4000/graphql` for an interactive API explorer.

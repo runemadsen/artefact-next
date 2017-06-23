@@ -1,41 +1,85 @@
-const graphqlHTTP = require('express-graphql');
-
-const {
+import graphqlHTTP from 'express-graphql';
+import { find } from './db';
+import {
   graphql,
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
   GraphQLID
-} = require('graphql');
+} from 'graphql';
+
+import {
+  nodeDefinitions,
+  connectionDefinitions,
+  fromGlobalId,
+  globalIdField,
+  connectionArgs
+} from 'graphql-relay';
+
+// Node interface
+// ----------------------------------------------------
+
+const { nodeInterface, nodeField } = nodeDefinitions(
+  globalId => {
+    const { type, id } = fromGlobalId(globalId);
+    // if (type === 'Faction') {
+    //   return getFaction(id);
+    // }
+    // if (type === 'Ship') {
+    //   return getShip(id);
+    // }
+  },
+  obj => {
+    // return obj.ships ? factionType : shipType;
+  }
+);
+
+// Work type
+// ----------------------------------------------------
+
+const workType = new GraphQLObjectType({
+  name: 'Work',
+  interfaces: [ nodeInterface ],
+  fields: () => ({
+    id: globalIdField(),
+    title: {
+      type: GraphQLString,
+      description: 'The title of the artwork.',
+    },
+  })
+});
+
+const { connectionType: workConnection } = connectionDefinitions({ nodeType: workType });
 
 // User type
 // ----------------------------------------------------
 
 const userType = new GraphQLObjectType({
   name: 'User',
-  fields: {
-    id: {
-      type: GraphQLID
-    },
+  interfaces: [ nodeInterface ],
+  fields: () => ({
+    id: globalIdField(),
     username: {
-      type: GraphQLString
+      type: GraphQLID,
+      description: 'The username of the user.',
     },
-  }
-});
+    works: {
+      type: workConnection,
+      description: 'The artworks created by the user.',
+      args: connectionArgs,
+      resolve: (user, args) => {
 
-// Work type
-// ----------------------------------------------------
+        // find works by user id
+        // USE ARGS TO USE LAST / FIRST / ORDERING / ETC
 
-const userType = new GraphQLObjectType({
-  name: 'User',
-  fields: {
-    id: {
-      type: GraphQLID
-    },
-    username: {
-      type: GraphQLString
-    },
-  }
+
+      }
+      // resolve: (user, args) => connectionFromArray(
+      //   faction.ships.map(getShip),
+      //   args
+      // ),
+    }
+  })
 });
 
 // Query

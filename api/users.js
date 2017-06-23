@@ -1,6 +1,6 @@
-const db = require('./db');
-const auth = require('passport-local-authenticate');
-const signature = require('cookie-signature');
+import { find, create } from './db';
+import auth  from 'passport-local-authenticate';
+import signature from 'cookie-signature';
 
 function signSessionId(sid) {
   return 's:' + signature.sign(sid, process.env.SESSION_SECRET);
@@ -20,39 +20,42 @@ function Serialize(user, cb) {
 }
 
 function Deserialize(id, cb) {
-  db.find('users', { id:id, opts:{ limit:1} }, function (err, rows) {
-    if(err) { return cb(err); }
-    cb(null, rows[0]);
-  });
+  find('users', { id:id, opts:{ limit:1} })
+    .catch((err) => {
+      cb(err, null)
+    })
+    .then((rows) => {
+      cb(null, rows)
+    })
 }
 
 function Verify(username, password, cb) {
 
-  db.find('users', { username:username, opts:{ limit: 1 } }, function(err, rows) {
+  find('users', { username:username, opts:{ limit: 1 } })
+    .catch((err) => cb(err, false))
+    .then((rows) => {
 
-    // if there was an error
-    if(err) { return cb(err, false); }
+      // if there was no user
+      if (!rows || !rows[0]) { return cb(null, false, {message: "User does not exist"}); }
 
-    // if there was no user
-    if (!rows || !rows[0]) { return cb(null, false, {message: "User does not exist"}); }
+      var user = rows[0];
 
-    var user = rows[0];
+      // verify password with user salt and hash
+      var hashed = { hash: user.password_hash, salt: user.password_salt };
+      auth.verify(password, hashed, HashOptions(), function(err, verified) {
 
-    // verify password with user salt and hash
-    var hashed = { hash: user.password_hash, salt: user.password_salt };
-    auth.verify(password, hashed, HashOptions(), function(err, verified) {
+        // if there was a error comparing hashes
+        if(err) { return cb(err, false) };
 
-      // if there was a error comparing hashes
-      if(err) { return cb(err, false) };
+        // otherwise check for match
+        if (!verified) { return cb(null, false, {message: "Incorrect password"}); }
 
-      // otherwise check for match
-      if (!verified) { return cb(null, false, {message: "Incorrect password"}); }
+        // correct user and hash
+        else {return cb(null, user); }
+      });
 
-      // correct user and hash
-      else {return cb(null, user); }
-    });
-  });
-};
+    })
+}
 
 function SignUp(req, res) {
 
@@ -69,27 +72,32 @@ function SignUp(req, res) {
     attrs.password_hash = hashed.hash;
     attrs.password_salt = hashed.salt;
 
-    db.create('users', attrs, function(e, rows) {
-      if(e || !rows) {
-        return res.status(500).json({message: "Could not create user"});
-      }
-      req.login(rows[0], function(e) {
+    create('users', attrs)
+      .catch((err) => {
+        res.status(500).json({message: "Could not create user"});
+      })
+      .then((rows) => {
 
-        if(e) {
-          return res.status(500).json({message: "Could not login user"});
-        }
+        if(!rows) return res.status(500).json({message: "Could not login user"});
 
-        // Because of a pretty stupid way of writing express-session, there's
-        // no way of getting to the signed session. So hey, let's do it again
-        // so the client can set a cookie for next.js too.
-        return res.status(201).json({
-          data: {
-            sessionId: signSessionId(req.sessionID)
-          },
-          message: "User created"
+        req.login(rows[0], function(e) {
+
+          if(e) {
+            return res.status(500).json({message: "Could not login user"});
+          }
+
+          // Because of a pretty stupid way of writing express-session, there's
+          // no way of getting to the signed session. So hey, let's do it again
+          // so the client can set a cookie for next.js too.
+          return res.status(201).json({
+            data: {
+              sessionId: signSessionId(req.sessionID)
+            },
+            message: "User created"
+          });
         });
-      });
-    });
+
+      })
 
   });
 }
@@ -109,9 +117,4 @@ function SignOut(req, res) {
   });
 }
 
-module.exports.Serialize = Serialize;
-module.exports.Deserialize = Deserialize;
-module.exports.Verify = Verify;
-module.exports.SignUp = SignUp;
-module.exports.SignIn = SignIn;
-module.exports.SignOut = SignOut;
+export { Serialize,  Deserialize, Verify, SignUp, SignIn, SignOut }
