@@ -1,5 +1,7 @@
 import graphqlHTTP from 'express-graphql';
 import { find } from './db';
+import pluralize from 'pluralize';
+
 import {
   graphql,
   GraphQLSchema,
@@ -24,15 +26,16 @@ import {
 const { nodeInterface, nodeField } = nodeDefinitions(
   globalId => {
     const { type, id } = fromGlobalId(globalId);
-    // if (type === 'Faction') {
-    //   return getFaction(id);
-    // }
-    // if (type === 'Ship') {
-    //   return getShip(id);
-    // }
+    const table = pluralize(type).toLowerCase();
+    return find(table, {id:id, opts:{ limit: 1 }})
+      .then(rows => {
+        return rows[0]
+      })
   },
   obj => {
-    // return obj.ships ? factionType : shipType;
+    // TODO: This should dynamically check for node type and return
+    // the correct node type.
+    return workType
   }
 );
 
@@ -109,6 +112,11 @@ const userType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+
+    // Ability to find any node by graphql id
+    node: nodeField,
+
+    // Returns the currently logged in user
     viewer: {
       type: userType,
       resolve(obj, args, req) {
