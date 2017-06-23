@@ -20,12 +20,13 @@ function Serialize(user, cb) {
 }
 
 function Deserialize(id, cb) {
+
   find('users', { id:id, opts:{ limit:1} })
     .catch((err) => {
       cb(err, null)
     })
     .then((rows) => {
-      cb(null, rows)
+      cb(null, rows[0])
     })
 }
 

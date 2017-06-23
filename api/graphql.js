@@ -13,7 +13,8 @@ import {
   connectionDefinitions,
   fromGlobalId,
   globalIdField,
-  connectionArgs
+  connectionArgs,
+  connectionFromPromisedArray
 } from 'graphql-relay';
 
 // Node interface
@@ -68,16 +69,9 @@ const userType = new GraphQLObjectType({
       description: 'The artworks created by the user.',
       args: connectionArgs,
       resolve: (user, args) => {
-
-        // find works by user id
-        // USE ARGS TO USE LAST / FIRST / ORDERING / ETC
-
-
+        const query = find('works', { user_id:user.id })
+        return connectionFromPromisedArray(query, args)
       }
-      // resolve: (user, args) => connectionFromArray(
-      //   faction.ships.map(getShip),
-      //   args
-      // ),
     }
   })
 });
