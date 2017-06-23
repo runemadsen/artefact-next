@@ -2,7 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import Container from './container'
 import Router from 'next/router'
-import { postRequest } from '../utils/api'
+import { postRequest } from '../../utils/api'
+
+import Artefact from './Artefact'
 
 const signOut = (e) => {
 
@@ -19,7 +21,7 @@ export default (props) => {
 
   return (<nav>
     <Container>
-      <Link href="/"><a id="logo">Artefact</a></Link>
+      <Link href="/"><Artefact/></Link>
       { props.viewer ? <Link href="/works"><a>Works</a></Link> : null }
       { props.viewer ? <Link href="/people"><a>People</a></Link> : null }
       { props.viewer ? <Link href="/user"><a>Profile</a></Link> : null }

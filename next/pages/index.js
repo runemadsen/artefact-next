@@ -1,9 +1,9 @@
 import Link from 'next/link'
-import Header from '../components/header'
-import Container from '../components/container'
-import Menu from '../components/menu'
-import SignUp from '../components/signup'
-import SignIn from '../components/signin'
+import Header from '../components/base/header'
+import Container from '../components/base/container'
+import Menu from '../components/base/menu'
+import SignUp from '../components/Forms/SignUp'
+import SignIn from '../components/Forms/SignIn'
 import Router from 'next/router'
 import { graphqlQuery, postRequest } from '../utils/api'
 import fetch from 'isomorphic-unfetch'
@@ -41,22 +41,20 @@ const onSignUp = async (username, password, email) => {
 
 const Index = (props) => {
 
-  let greeting
-  if(props.viewer) {
-    greeting = (<p>You are logged in</p>)
-  }
-  else {
-    greeting = (<div>
-      <SignUp onSubmit={onSignUp} />
-      <SignIn onSubmit={onSignIn} />
-    </div>)
-  }
-
   return <div>
     <Header />
     <Menu viewer={props.viewer} />
     <Container>
-      {greeting}
+      { props.viewer 
+        ?
+          <p>You are logged in</p>
+        :
+        <div>
+          <SignUp onSubmit={onSignUp} />
+          <div>or...</div> 
+          <SignIn onSubmit={onSignIn} />
+        </div>
+      }
     </Container>
   </div>
 }

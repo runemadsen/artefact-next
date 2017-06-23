@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default ({ children }) => (
-  <div className="container">
+export default ({ children, className }) => (
+  <div className={`container ${className ? className : ''}`}>
     { children }
     <style jsx>{`
       .container {

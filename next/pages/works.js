@@ -1,6 +1,6 @@
-import Header from '../components/header'
-import Container from '../components/container'
-import Menu from '../components/menu'
+import Header from '../components/base/header'
+import Container from '../components/base/container'
+import Menu from '../components/base/menu'
 import { graphqlQuery } from '../utils/api'
 
 const Works = (props) => {
