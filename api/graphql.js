@@ -33,8 +33,8 @@ const { nodeInterface, nodeField } = nodeDefinitions(
       })
   },
   obj => {
-    // TODO: This should dynamically check for node type and return
-    // the correct node type.
+    // TODO: This should dynamically check for node type
+    // and return the correct node type.
     return workType
   }
 );
@@ -74,11 +74,70 @@ const workType = new GraphQLObjectType({
     dimension_text: {
       type: GraphQLString,
       description: 'The text description of the artwork dimensions.'
+    },
+    artist: {
+      type: personType,
+      description: 'The artist who created the artwork.',
+      resolve: (work, args) => {
+        return find('people', { id:work.artist_id, opts: { limit: 1 }})
+          .then(rows => rows[0])
+      }
     }
   })
 });
 
 const { connectionType: workConnection } = connectionDefinitions({ nodeType: workType });
+
+// User type
+// ----------------------------------------------------
+
+const personType = new GraphQLObjectType({
+  name: 'Person',
+  interfaces: [ nodeInterface ],
+  fields: () => ({
+    id: globalIdField(),
+    type: {
+      type: GraphQLString,
+      description: 'The type of the person.',
+    },
+    name: {
+      type: GraphQLString,
+      description: 'The name of the person.',
+    },
+    company: {
+      type: GraphQLString,
+      description: 'The company of the person.',
+    },
+    address_1: {
+      type: GraphQLString,
+      description: 'The address_1 of the person.',
+    },
+    address_2: {
+      type: GraphQLString,
+      description: 'The address_2 of the person.',
+    },
+    city: {
+      type: GraphQLString,
+      description: 'The city of the person.',
+    },
+    state: {
+      type: GraphQLString,
+      description: 'The state of the person.',
+    },
+    postal: {
+      type: GraphQLString,
+      description: 'The postal of the person.',
+    },
+    phone: {
+      type: GraphQLString,
+      description: 'The phone of the person.',
+    },
+    email: {
+      type: GraphQLString,
+      description: 'The email of the person.',
+    },
+  })
+});
 
 // User type
 // ----------------------------------------------------
