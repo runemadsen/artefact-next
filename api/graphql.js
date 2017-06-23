@@ -5,6 +5,7 @@ import {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLInt,
   GraphQLID
 } from 'graphql';
 
@@ -45,8 +46,32 @@ const workType = new GraphQLObjectType({
     id: globalIdField(),
     title: {
       type: GraphQLString,
-      description: 'The title of the artwork.',
+      description: 'The title of the artwork.'
     },
+    medium: {
+      type: GraphQLString,
+      description: 'The medium of the artwork.'
+    },
+    width: {
+      type: GraphQLInt,
+      description: 'The width of the artwork.'
+    },
+    height: {
+      type: GraphQLInt,
+      description: 'The height of the artwork.'
+    },
+    depth: {
+      type: GraphQLInt,
+      description: 'The depth of the artwork.'
+    },
+    dimension_unit: {
+      type: GraphQLString,
+      description: 'The unit of measurement for the width, height, and depth fields.'
+    },
+    dimension_text: {
+      type: GraphQLString,
+      description: 'The text description of the artwork dimensions.'
+    }
   })
 });
 
@@ -69,6 +94,8 @@ const userType = new GraphQLObjectType({
       description: 'The artworks created by the user.',
       args: connectionArgs,
       resolve: (user, args) => {
+        // TODO: This will fetch every work by user and filter server-side
+        // Write logic that limit/orders results by first/last/cursor
         const query = find('works', { user_id:user.id })
         return connectionFromPromisedArray(query, args)
       }
