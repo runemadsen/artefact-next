@@ -19,3 +19,7 @@ Then, migrate the database:
 `npm run migrate`
 
 `npm run dev` and open `localhost:3000`
+
+## GraphQL API
+
+To read up on why we use connections, edges, and nodes, take a look at [this article](http://graphql.org/learn/pagination/).
