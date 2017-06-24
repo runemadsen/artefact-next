@@ -20,8 +20,7 @@ export default class Input extends Component {
     } else {
       this.setState({invalid: false})
     }
-    
-    this.props.onChange(value, name)
+    this.props.onChange(name, value)
   }
   onFocus(){
     this.setState({focus: true})
@@ -30,36 +29,41 @@ export default class Input extends Component {
     this.setState({focus: false})
   }
   render() {
-    let {children, label, name, value, type, placeholder,  size, autoCapitalize} = this.props
+    let {className, children, label, name, value, type, placeholder, step, size, autoCapitalize} = this.props
     type = type || "text"
     let inputClass = classnames(
-      "input_container", 
-      { [`type_${type}`] : type,
+      className,
+      "input_container",
+      {
+        [`type_${type}`] : type,
         [`size_${size}`] : size,
         [`invalid`] : this.state.invalid,
         [`focused`] : this.state.focus
-     },
-     {"with_label": label })
+      },
+      {"with_label": label },
+    )
+
     return (
       <div className={inputClass} onFocus={this.onFocus} onBlur={this.onBlur}>
-        <label htmlFor={name}>{label}</label>
-        {children  ? 
+        {label ? <label htmlFor={name}>{label}</label> : null}
+        {children  ?
           <div className="group">{children}</div>
         :
         <input
-          name={name} 
-          type={type} 
-          value={value} 
+          name={name}
+          type={type}
+          step={step}
+          value={value}
           placeholder={placeholder}
           onChange={this.onChange}
           autoCapitalize={autoCapitalize}
 
-          />
+        />
         }
         <style jsx>{`
           .input_container {
             width: 100%;
-            margin-bottom: ${layout.spacing};
+            margin-bottom: ${layout.space};
           }
           .input:after{
             content:" ";
@@ -108,13 +112,9 @@ export default class Input extends Component {
     )
   }
 }
-
-
 Input.propTypes = {
-  label: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
   type: PropTypes.string,
   placeholder: PropTypes.string,
 }
-

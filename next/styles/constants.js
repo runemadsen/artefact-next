@@ -17,8 +17,10 @@ export const font = {
 }
 
 export const layout = {
+  maxWidth: `1100px`,
   border: `2px solid ${color.border}`,
-  spacing: '1em',
+  space: '1rem',
+  spaceDouble: '2rem',
   labelWidth: '125px',
 }
 

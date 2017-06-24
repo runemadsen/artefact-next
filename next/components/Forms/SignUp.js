@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Input from '../Fields/Input'
-import Button from '../Fields/Button'
+import Input from '../fields/input'
+import Button from '../fields/button'
 
 class SignUp extends Component {
   constructor(props) {
@@ -11,15 +11,15 @@ class SignUp extends Component {
     this.handleInputOnChange = this.handleInputOnChange.bind(this)
     this.state={}
   }
-  handleInputOnChange(value, name) {
+  handleInputOnChange(name, value) {
     let newState = {}
     newState[name] = value
     this.setState(newState)
   }
   handleSubmit(e) {
     e.preventDefault()
-    console.log(this.state.username, this.state.password)
-    this.props.onSubmit(this.state.username, this.state.password)
+    console.log(this.state.username, this.state.password, this.state.email)
+    this.props.onSubmit(this.state.username, this.state.password, this.state.email)
   }
 
   render() {
@@ -27,10 +27,10 @@ class SignUp extends Component {
       <div>
         <h2>Sign Up</h2>
         <form onSubmit={ (e) => this.handleSubmit(e) }>
-          <Input type="text" id="signUpUsername" name="username" placeholder="Pick a Username" 
-           onChange={this.handleInputOnChange} 
-           autoComplete="off" autoCapitalize="off" 
-           validate="^\S+$" validateMessage="No spaces please"/>
+          <Input type="text" id="signUpUsername" name="username" placeholder="Pick a Username"
+            onChange={this.handleInputOnChange}
+            autoComplete="off" autoCapitalize="off"
+          validate="^\S+$" validateMessage="No spaces please"/>
           <Input onChange={this.handleInputOnChange} type="email" id="signUpUsername" name="email" placeholder="Your Email"/>
           <Input onChange={this.handleInputOnChange} type="password" id="signUpPassword" name="password" placeholder="Pick a Password" />
           <Button onClick={this.handleSubmit} type="submit" label="Sign Up" right/>

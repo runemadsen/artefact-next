@@ -1,12 +1,13 @@
 import Link from 'next/link'
-import Header from '../components/base/header'
-import Container from '../components/base/container'
-import Menu from '../components/base/menu'
-import SignUp from '../components/Forms/SignUp'
-import SignIn from '../components/Forms/SignIn'
 import Router from 'next/router'
-import { graphqlQuery, postRequest } from '../utils/api'
 import fetch from 'isomorphic-unfetch'
+
+import { graphqlQuery, postRequest } from '../utils/api'
+
+import Header from '../components/base/header'
+import Main from '../components/base/main'
+import SignInOrSignUp from '../components/forms/signInOrSignUp'
+import Onboarding from '../components/forms/onboarding'
 
 const onSignIn = async (username, password) => {
 
@@ -39,23 +40,22 @@ const onSignUp = async (username, password, email) => {
   Router.push('/')
 }
 
-const Index = (props) => {
+const onProfileChange = async (name, data) => {
+  console.log("changed %s to %s", name, data)
+}
 
+const Index = (props) => {
   return <div>
-    <Header />
-    <Menu viewer={props.viewer} />
-    <Container>
-      { props.viewer 
+    <Header viewer={props.viewer} title="Artefact" />
+
+    <Main>
+      { props.viewer
         ?
-          <p>You are logged in</p>
+          <Onboarding onChange={onProfileChange}/>
         :
-        <div>
-          <SignUp onSubmit={onSignUp} />
-          <div>or...</div> 
-          <SignIn onSubmit={onSignIn} />
-        </div>
+        <SignInOrSignUp onSignUp={onSignUp} onSignIn={onSignIn}/>
       }
-    </Container>
+    </Main>
   </div>
 }
 

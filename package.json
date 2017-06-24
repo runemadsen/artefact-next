@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-css-import-to-string": "0.0.2",
     "body-parser": "^1.17.2",
     "compression": "^1.6.2",
     "connect-pg-simple": "^4.2.0",
@@ -33,6 +34,7 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-select": "^1.0.0-rc.5",
     "squel": "^5.10.0"
   },
   "devDependencies": {

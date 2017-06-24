@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Input from '../Fields/Input'
-import Button from '../Fields/Button'
+import Input from '../fields/input'
+import Button from '../fields/button'
 
 class SignIn extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class SignIn extends Component {
     this.handleInputOnChange = this.handleInputOnChange.bind(this)
     this.state={}
   }
-  handleInputOnChange(value, name) {
+  handleInputOnChange(name, value) {
     let newState = {}
     newState[name] = value
     this.setState(newState)
