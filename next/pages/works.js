@@ -11,9 +11,17 @@ const Works = (props) => {
   return (<div>
     <Header viewer={props.viewer} />
     <Main>
-      <p>This is the works page.</p>
+
+      <h1>Works</h1>
       <Container right>
         <Link href="/newwork"><a><Button small label="New Work"/></a></Link>
+      </Container>
+      <Container>
+        <ul>
+          {props.viewer.works.edges.map(work =>
+            <li key={work.node.id}>{work.node.title}</li>
+          )}
+        </ul>
       </Container>
     </Main>
   </div>)
@@ -26,6 +34,19 @@ Works.getInitialProps = async ({ req }) => {
     viewer {
       id
       username
+      works {
+        edges {
+          cursor
+          node {
+            id
+            title
+            medium
+            artist {
+              name
+            }
+          }
+        }
+      }
     }
   }`)
   const json = await res.json()

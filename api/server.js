@@ -1,20 +1,23 @@
-if(process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: '../.env' })
-}
+import express from 'express';
+import graphql from './graphql';
+import compression from 'compression';
+import passport from 'passport';
+import Strategy from 'passport-local';
+import bodyParser  from 'body-parser';
+import session from 'express-session';
+import methodOverride from 'method-override';
+import cors from 'cors';
+import {
+  Serialize,
+  Deserialize,
+  Verify,
+  SignUp,
+  SignIn,
+  SignOut
+} from './users';
 
-const express = require('express');
-const graphql = require('./graphql');
-const compression = require('compression');
-const passport = require('passport');
-const Strategy = require('passport-local');
-const bodyParser  = require('body-parser');
-const session = require('express-session');
-const methodOverride = require('method-override');
-const cors = require('cors');
-const db = require('./db');
 const app = express();
-
-const { Serialize, Deserialize, Verify, SignUp, SignIn, SignOut } = require('./users');
+const port = process.env.PORT || 4000;
 
 // Middleware
 // ---------------------------------------------
@@ -75,4 +78,6 @@ app.use("/graphql", function (req, res, next) {
 });
 app.use('/graphql', graphql);
 
-app.listen(process.env.PORT || 4000);
+app.listen(port);
+
+console.log('API ready on localhost:' + port)
