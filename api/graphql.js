@@ -1,6 +1,7 @@
 import graphqlHTTP from 'express-graphql';
-import { find } from './db';
+import { find, create } from './db';
 import pluralize from 'pluralize';
+import { AUTH_ERROR } from './constants';
 
 import {
   graphql,
@@ -11,7 +12,8 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLID,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLError
 } from 'graphql';
 
 import {
@@ -50,6 +52,7 @@ const workType = new GraphQLObjectType({
   interfaces: [ nodeInterface ],
   fields: () => ({
     id: globalIdField(),
+    userId: { type: GraphQLInt },
     title: {
       type: GraphQLString,
       description: 'The title of the artwork.'
@@ -92,7 +95,7 @@ const workType = new GraphQLObjectType({
 const { connectionType: workConnection } = connectionDefinitions({ nodeType: workType });
 
 const workInputType = new GraphQLInputObjectType({
-  name: 'Work',
+  name: 'WorkInput',
   fields: {
     title: { type: GraphQLString },
     medium: { type: GraphQLString },
@@ -211,11 +214,34 @@ const queryType = new GraphQLObjectType({
   }
 })
 
+// Query
+// ----------------------------------------------------
+
+const mutationType = new GraphQLObjectType({
+  name: 'RootMutationType',
+  fields: {
+    createWork: {
+      type: workType,
+      args: {
+        work: { type: workInputType }
+      },
+      resolve: (value, { work }, req) => {
+        if(!req.user) {
+          throw new GraphQLError(AUTH_ERROR);
+        }
+        work.userId = req.user.id
+        return create('works', work).then((rows) => rows[0])
+      }
+    }
+  }
+})
+
 // GraphQL Schema
 // ----------------------------------------------------
 
 var schema = new GraphQLSchema({
-  query: queryType
+  query: queryType,
+  mutation: mutationType
 });
 
 // Make middleware

@@ -75,6 +75,7 @@ function SignUp(req, res) {
 
     create('users', attrs)
       .catch((err) => {
+        console.log(err)
         res.status(500).json({message: "Could not create user"});
       })
       .then((rows) => {
