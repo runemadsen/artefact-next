@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
-import {color, font, layout} from '../../styles/constants'
+import { color, font, layout } from "../../styles/constants";
 
-const Button = (props) => {
-
-  let {label, href, type, small, wide} = props
-  let classes = classnames({small, wide})
-  return(
+const Button = props => {
+  let { label, href, type, small, wide } = props;
+  let classes = classnames({ small, wide });
+  return (
     <button type={type} href={href} className={classes}>
       {label}
       <style jsx>{`
@@ -44,14 +43,14 @@ const Button = (props) => {
           width: 100%;
         }
       `}</style>
-    </button>)
-}
+    </button>
+  );
+};
 
 Button.propTypes = {
   onClick: PropTypes.func,
   to: PropTypes.string,
-  href: PropTypes.string,
+  href: PropTypes.string
+};
 
-}
-
-export default Button
+export default Button;

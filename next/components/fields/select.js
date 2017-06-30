@@ -1,51 +1,46 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import ReactSelect from 'react-select'
-import { Creatable } from 'react-select'
-import classnames from 'classnames'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ReactSelect from "react-select";
+import { Creatable } from "react-select";
+import classnames from "classnames";
 
-import {color,layout, font} from '../../styles/constants'
+import { color, layout, font } from "../../styles/constants";
 
-import reactselectstyles from '../../../node_modules/react-select/dist/react-select.css'
+import reactselectstyles from "../../../node_modules/react-select/dist/react-select.css";
 
 export default class Select extends Component {
-  constructor(props){
-    super(props)
-    this.state = {}
-    this.onChange = this.onChange.bind(this)
-    this.onFocus = this.onFocus.bind(this)
-    this.onBlur = this.onBlur.bind(this)
-
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.onChange = this.onChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
   }
-  onChange(e){
-    console.log(e.value)
-    this.props.onChange(this.props.name, e.value)
+  onChange(e) {
+    console.log(e.value);
+    this.props.onChange(this.props.name, e.value);
   }
-  onFocus(){
-    this.setState({focus: true})
+  onFocus() {
+    this.setState({ focus: true });
   }
-  onBlur(){
-    this.setState({focus: false})
+  onBlur() {
+    this.setState({ focus: false });
   }
-  render(){
-    let props = this.props
-    let options = props.options.map((v,i)=>{
-      return (v instanceof Object) ? v : {label:v,value:v.toLowerCase()}
-    })
-    let selectClass = classnames(
-      "form-select",
-      {
-        "creatable" : props.creatable ,
-        "with-label" : props.label,
-        "focused" : this.state.focus || this.props.focus
-      }
-    )
+  render() {
+    let props = this.props;
+    let options = props.options.map((v, i) => {
+      return v instanceof Object ? v : { label: v, value: v.toLowerCase() };
+    });
+    let selectClass = classnames("form-select", {
+      creatable: props.creatable,
+      "with-label": props.label,
+      focused: this.state.focus || this.props.focus
+    });
     return (
       <div className={selectClass} onFocus={this.onFocus} onBlur={this.onBlur}>
         <label>{props.label}</label>
-        {
-          props.creatable ?
-            <Creatable
+        {props.creatable
+          ? <Creatable
               name={props.name}
               value={props.value}
               placeholder={props.placeholder}
@@ -53,16 +48,14 @@ export default class Select extends Component {
               clearable={props.clearable}
               onChange={this.onChange}
             />
-          :
-          <ReactSelect
-            name={props.name}
-            value={props.value}
-            placeholder={props.placeholder}
-            options={options}
-            clearable={props.clearable}
-            onChange={this.onChange}
-          />
-        }
+          : <ReactSelect
+              name={props.name}
+              value={props.value}
+              placeholder={props.placeholder}
+              options={options}
+              clearable={props.clearable}
+              onChange={this.onChange}
+            />}
         <style jsx>{`
           .form-select{
             width: 100%;
@@ -147,14 +140,13 @@ export default class Select extends Component {
           }
         `}</style>
       </div>
-    )
+    );
   }
-
 }
 
 Select.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-}
+  onChange: PropTypes.func.isRequired
+};
