@@ -88,7 +88,7 @@ const workType = new GraphQLObjectType({
 
 const { connectionType: workConnection } = connectionDefinitions({ nodeType: workType });
 
-// User type
+// Person type
 // ----------------------------------------------------
 
 const personType = new GraphQLObjectType({
@@ -126,7 +126,7 @@ const personType = new GraphQLObjectType({
     },
     postal: {
       type: GraphQLString,
-      description: 'The postal of the person.',
+      description: 'The postal code of the person.',
     },
     phone: {
       type: GraphQLString,
