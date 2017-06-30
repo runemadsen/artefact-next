@@ -17,6 +17,7 @@ const Works = (props) => {
         <Link href="/newwork"><a><Button small label="New Work"/></a></Link>
       </Container>
       <Container>
+        
         <ul>
           {props.viewer.works.edges.map(work =>
             <li key={work.node.id}>{work.node.title}</li>
