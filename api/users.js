@@ -42,7 +42,7 @@ function Verify(username, password, cb) {
       var user = rows[0];
 
       // verify password with user salt and hash
-      var hashed = { hash: user.password_hash, salt: user.password_salt };
+      var hashed = { hash: user.passwordHash, salt: user.passwordSalt };
       auth.verify(password, hashed, HashOptions(), function(err, verified) {
 
         // if there was a error comparing hashes
@@ -70,8 +70,8 @@ function SignUp(req, res) {
     if(err) return res.status(500).json({message: "Something went wrong"});
 
     delete attrs.password;
-    attrs.password_hash = hashed.hash;
-    attrs.password_salt = hashed.salt;
+    attrs.passwordHash = hashed.hash;
+    attrs.passwordSalt = hashed.salt;
 
     create('users', attrs)
       .catch((err) => {

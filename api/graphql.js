@@ -6,9 +6,12 @@ import {
   graphql,
   GraphQLSchema,
   GraphQLObjectType,
+  GraphQLInputObjectType,
+  GraphQLBoolean,
   GraphQLString,
   GraphQLInt,
-  GraphQLID
+  GraphQLID,
+  GraphQLNonNull
 } from 'graphql';
 
 import {
@@ -39,7 +42,7 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   }
 );
 
-// Work type
+// Works
 // ----------------------------------------------------
 
 const workType = new GraphQLObjectType({
@@ -67,11 +70,11 @@ const workType = new GraphQLObjectType({
       type: GraphQLInt,
       description: 'The depth of the artwork.'
     },
-    dimension_unit: {
+    dimensionUnit: {
       type: GraphQLString,
       description: 'The unit of measurement for the width, height, and depth fields.'
     },
-    dimension_text: {
+    dimensionText: {
       type: GraphQLString,
       description: 'The text description of the artwork dimensions.'
     },
@@ -79,7 +82,7 @@ const workType = new GraphQLObjectType({
       type: personType,
       description: 'The artist who created the artwork.',
       resolve: (work, args) => {
-        return find('people', { id:work.artist_id, opts: { limit: 1 }})
+        return find('people', { id:work.artistId, opts: { limit: 1 }})
           .then(rows => rows[0])
       }
     }
@@ -87,6 +90,21 @@ const workType = new GraphQLObjectType({
 });
 
 const { connectionType: workConnection } = connectionDefinitions({ nodeType: workType });
+
+const workInputType = new GraphQLInputObjectType({
+  name: 'Work',
+  fields: {
+    title: { type: GraphQLString },
+    medium: { type: GraphQLString },
+    width: { type: GraphQLInt },
+    height: { type: GraphQLInt },
+    depth: { type: GraphQLInt },
+    dimensionUnit: { type: GraphQLString },
+    dimensionText: { type: GraphQLString },
+    editioned: { type: GraphQLBoolean },
+    artistId: { type: GraphQLInt }
+  }
+});
 
 // Person type
 // ----------------------------------------------------
@@ -108,13 +126,13 @@ const personType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'The company of the person.',
     },
-    address_1: {
+    address1: {
       type: GraphQLString,
-      description: 'The address_1 of the person.',
+      description: 'The address1 of the person.',
     },
-    address_2: {
+    address2: {
       type: GraphQLString,
-      description: 'The address_2 of the person.',
+      description: 'The address1 of the person.',
     },
     city: {
       type: GraphQLString,
@@ -158,7 +176,7 @@ const userType = new GraphQLObjectType({
       resolve: (user, args) => {
         // TODO: This will fetch every work by user and filter server-side
         // Write logic that limit/orders results by first/last/cursor
-        const query = find('works', { user_id:user.id })
+        const query = find('works', { userId:user.id })
         return connectionFromPromisedArray(query, args)
       }
     }
