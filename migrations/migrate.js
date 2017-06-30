@@ -1,5 +1,4 @@
-var path = require('path');
-var _ = require('lodash');
+var path = require('path')
 var postgrator = require('postgrator');
 
 if(process.env.NODE_ENV !== 'production') {

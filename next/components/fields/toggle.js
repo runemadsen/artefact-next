@@ -16,7 +16,7 @@ const Toggle = (props) => {
   }
 
   let options = props.options.map((v,i)=>{
-    return (Object.is(v)) ? v : {label:String(v),value:String(v).toLowerCase()}
+    return v instanceof Object ? v : {label:String(v),value:String(v).toLowerCase()}
   })
   let value = props.value || options[0].value
 
@@ -57,12 +57,12 @@ const Toggle = (props) => {
       <style jsx>{`
         .toggle.input_container {
           width: 100%;
-          height: 38px;
+          height: ${layout.input.height};
           border-bottom: ${layout.border};
         }
         .toggle > label {
           position: absolute;
-          max-width: ${layout.labelWidth};
+          max-width: ${layout.label.width};
           padding-top: 7px;
         }
         .options {
@@ -72,7 +72,7 @@ const Toggle = (props) => {
           align-items: stretch;
         }
         .with_label > .options{
-          padding-left: ${layout.labelWidth};
+          padding-left: ${layout.label.width};
         }
 
         .option {
@@ -80,8 +80,8 @@ const Toggle = (props) => {
           z-index: 10;
           /*float: left;*/
           width: 50%;
-          height: 38px;
-          line-height: 38px;
+          height: ${layout.input.height};
+          line-height: ${layout.input.height};
           text-align: center;
           margin-bottom: -2px;
         }

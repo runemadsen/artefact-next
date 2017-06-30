@@ -13,19 +13,23 @@ import Toggle from '../fields/toggle';
 export default class NewWorkForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {}
     this.handleOnChange = this.handleOnChange.bind(this)
   }
 
-  handleOnChange(data, loc){
-    this.props.onChange(data,loc)
+  handleOnChange(name, value){
+    let newState={};
+    newState[name] = value
+    this.setState(newState)
+    this.props.onChange(name,value)
   }
 
   render(){
-    let work = this.props.work || {dimensions: {}}
+    let work = this.props.work || this.state
     return (
       <form>
         <Input label="title" name="title" value={work.title} placeholder="Artwork's Title" onChange={this.handleOnChange}/>
-        <MonthYearPicker label="creation date" value={work.creation_date} name="date" onChange={this.handleOnChange}/>
+        <MonthYearPicker label="creation date" value={work.createdat} name="createdat" onChange={this.handleOnChange}/>
         <Select label="artist" name="artist" value={work.artist} placeholder="Artist" onChange={this.handleOnChange}
           options={["Martin", "Rune", "Alex"]}/>
         <Select label="medium" name="medium" value={work.medium} placeholder="Oil, Metal,..." onChange={this.handleOnChange}
@@ -37,9 +41,9 @@ export default class NewWorkForm extends Component {
           depth={work.depth}
           dimensionunit={work.dimensionunit}
           onChange={this.handleOnChange} />
-        <Input label="" name="dimensions_words" value={work.dimensions_words} placeholder="Or describe it in words" onChange={this.handleOnChange}/>
+        <Input label=" " name="dimensions_words" value={work.dimensions_words} placeholder="Or describe it in words" onChange={this.handleOnChange}/>
 
-        <Toggle name="editioned" label="editioned" value={work.editioned} options={[true, false]} onChange={this.handleOnChange} />
+        <Toggle name="editioned" label="editioned" value={work.editioned} options={[{value: false, label: "Single"}, {value: true, label: "Editioned"}]} onChange={this.handleOnChange} />
       </form>
     );
   }

@@ -8,7 +8,7 @@ export default class Artefact extends Component {
         <div dangerouslySetInnerHTML={{__html: logo}} />
         <style jsx global>{`
           .artefact {
-            height: 38px;
+            height: 40px;
           }
           .logo-text {
             fill: ${color.text};

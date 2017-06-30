@@ -21,7 +21,8 @@ export const layout = {
   border: `2px solid ${color.border}`,
   space: '1rem',
   spaceDouble: '2rem',
-  labelWidth: '125px',
+  label: {width: '125px'},
+  input:{height:'38px'}
 }
 
 export default {color, font, layout}

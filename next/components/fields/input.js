@@ -6,8 +6,8 @@ import {layout, color, font} from '../../styles/constants'
 
 export default class Input extends Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
     this.onChange = this.onChange.bind(this)
     this.onFocus = this.onFocus.bind(this)
     this.onBlur = this.onBlur.bind(this)
@@ -74,7 +74,7 @@ export default class Input extends Component {
           }
           label {
             position: absolute;
-            max-width: ${layout.labelWidth};
+            max-width: ${layout.label.width};
             padding-top: 7px;
           }
           input {
@@ -85,12 +85,12 @@ export default class Input extends Component {
             font-size: ${font.size.medium};
             outline: none;
             border: none;
-            height: 38px;
+            height: ${layout.input.height};
             border-bottom: ${layout.border};
           }
           .group{
             border-bottom: ${layout.border};
-            height:38px;
+            height:${layout.input.height};
             width: 100%;
           }
           .focused input, .focused .group {
@@ -98,7 +98,7 @@ export default class Input extends Component {
           }
 
           .with_label > input, .with_label > .group {
-            padding-left: ${layout.labelWidth};
+            padding-left: ${layout.label.width};
           }
           .group {
             display:flex;
