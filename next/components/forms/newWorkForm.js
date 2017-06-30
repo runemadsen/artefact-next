@@ -31,7 +31,12 @@ export default class NewWorkForm extends Component {
         <Select label="medium" name="medium" value={work.medium} placeholder="Oil, Metal,..." onChange={this.handleOnChange}
           creatable
           options={["Oil", "Metal", "Digital"]}/>
-        <Dimensions label="dimensions" value={work.dimensions} name="dimensions" onChange={this.handleOnChange} />
+        <Dimensions label="dimensions" name="dimensions"
+          width={work.width}
+          height={work.height}
+          depth={work.depth}
+          dimensionunit={work.dimensionunit}
+          onChange={this.handleOnChange} />
         <Input label="" name="dimensions_words" value={work.dimensions_words} placeholder="Or describe it in words" onChange={this.handleOnChange}/>
 
         <Toggle name="editioned" label="editioned" value={work.editioned} options={[true, false]} onChange={this.handleOnChange} />

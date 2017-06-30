@@ -55,8 +55,9 @@ const Toggle = (props) => {
         })}
       </div>
       <style jsx>{`
-        .toggle {
+        .toggle.input_container {
           width: 100%;
+          height: 38px;
           border-bottom: ${layout.border};
         }
         .toggle > label {
