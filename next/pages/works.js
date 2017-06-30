@@ -1,21 +1,30 @@
-import Header from '../components/header'
-import Container from '../components/container'
-import Menu from '../components/menu'
+import Link from 'next/link'
+import Header from '../components/base/header'
+import Main from '../components/base/main'
+import Container from '../components/base/container'
+import Menu from '../components/base/menu'
+import Button from '../components/fields/button'
 import { graphqlQuery } from '../utils/api'
 
 const Works = (props) => {
 
   return (<div>
-    <Header />
-    <Menu viewer={props.viewer} />
-    <Container>
+    <Header viewer={props.viewer} />
+    <Main>
+
       <h1>Works</h1>
-      <ul>
-      {props.viewer.works.edges.map(work =>
-        <li key={work.node.id}>{work.node.title}</li>
-      )}
-      </ul>
-    </Container>
+      <Container right>
+        <Link href="/newwork"><a><Button small label="New Work"/></a></Link>
+      </Container>
+      <Container>
+        
+        <ul>
+          {props.viewer.works.edges.map(work =>
+            <li key={work.node.id}>{work.node.title}</li>
+          )}
+        </ul>
+      </Container>
+    </Main>
   </div>)
 
 }
