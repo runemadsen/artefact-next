@@ -22,6 +22,7 @@
     "express-session": "^1.15.3",
     "graphql": "^0.10.1",
     "graphql-relay": "^0.5.2",
+    "humps": "^2.0.1",
     "isomorphic-unfetch": "^1.0.0",
     "method-override": "^2.3.9",
     "next": "^2.4.1",

@@ -1,6 +1,7 @@
 import graphqlHTTP from 'express-graphql';
 import { find, create } from './db';
 import pluralize from 'pluralize';
+import { AUTH_ERROR } from './constants';
 
 import {
   graphql,
@@ -51,6 +52,7 @@ const workType = new GraphQLObjectType({
   interfaces: [ nodeInterface ],
   fields: () => ({
     id: globalIdField(),
+    userId: { type: GraphQLInt },
     title: {
       type: GraphQLString,
       description: 'The title of the artwork.'
@@ -224,13 +226,11 @@ const mutationType = new GraphQLObjectType({
         work: { type: workInputType }
       },
       resolve: (value, { work }, req) => {
-
-        throw new GraphQLError("You must be logged in to create works");
-
+        if(!req.user) {
+          throw new GraphQLError(AUTH_ERROR);
+        }
         work.userId = req.user.id
-        // Add userId from current User
-        // Save to DB RETURNING *
-        console.log('hello', work, req.user)
+        return create('works', work).then((rows) => rows[0])
       }
     }
   }

@@ -1,4 +1,5 @@
 import squelLib from 'squel';
+import humps from 'humps';
 const squel = squelLib.useFlavour('postgres');
 import db from 'pg-query';
 db.connectionParameters = process.env.DATABASE_URL;
@@ -7,6 +8,8 @@ async function find(table, attr, cb) {
 
   const opts = attr.opts || {};
   delete attr.opts;
+
+  attr = humps.decamelizeKeys(attr)
 
   var query = squel.select().from(table);
 
@@ -30,9 +33,11 @@ async function find(table, attr, cb) {
 }
 
 async function create(table, attr, cb) {
+  attr = humps.decamelizeKeys(attr)
   var query = squel.insert().into(table).setFields(attr).returning('*').toParam();
   const result = await db(query.text, query.values);
-  return result[0]
+  const rows = humps.camelizeKeys(result[0])
+  return rows
 }
 
 export { find, create }
