@@ -1,5 +1,5 @@
 import graphqlHTTP from 'express-graphql';
-import { find } from './db';
+import { find, create } from './db';
 import pluralize from 'pluralize';
 
 import {
@@ -11,7 +11,8 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLID,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLError
 } from 'graphql';
 
 import {
@@ -92,7 +93,7 @@ const workType = new GraphQLObjectType({
 const { connectionType: workConnection } = connectionDefinitions({ nodeType: workType });
 
 const workInputType = new GraphQLInputObjectType({
-  name: 'Work',
+  name: 'WorkInput',
   fields: {
     title: { type: GraphQLString },
     medium: { type: GraphQLString },
@@ -211,11 +212,36 @@ const queryType = new GraphQLObjectType({
   }
 })
 
+// Query
+// ----------------------------------------------------
+
+const mutationType = new GraphQLObjectType({
+  name: 'RootMutationType',
+  fields: {
+    createWork: {
+      type: workType,
+      args: {
+        work: { type: workInputType }
+      },
+      resolve: (value, { work }, req) => {
+
+        throw new GraphQLError("You must be logged in to create works");
+
+        work.userId = req.user.id
+        // Add userId from current User
+        // Save to DB RETURNING *
+        console.log('hello', work, req.user)
+      }
+    }
+  }
+})
+
 // GraphQL Schema
 // ----------------------------------------------------
 
 var schema = new GraphQLSchema({
-  query: queryType
+  query: queryType,
+  mutation: mutationType
 });
 
 // Make middleware
