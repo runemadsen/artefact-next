@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:servers" : "cd next && ../node_modules/.bin/dotenv -e ../.env node server.js",
-    "dev:build" : "cd api && ../node_modules/.bin/dotenv -e ../.env ../node_modules/.bin/nodemon server.js -- --exec ../node_modules/.bin/babel-node --presets es2015,stage-2 --plugins=transform-async-to-generator",
+    "dev:servers": "cd next && ../node_modules/.bin/dotenv -e ../.env node server.js",
+    "dev:build": "cd api && ../node_modules/.bin/dotenv -e ../.env ../node_modules/.bin/nodemon server.js -- --exec ../node_modules/.bin/babel-node --presets es2015,stage-2 --plugins=transform-async-to-generator",
     "dev": "concurrently --kill-others \"npm run dev:servers\" \"npm run dev:build\"",
     "migrate": "node migrations/migrate.js"
   },
