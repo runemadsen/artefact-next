@@ -2,6 +2,7 @@ import Header from "../components/base/header";
 import Main from "../components/base/main";
 import Container from "../components/base/container";
 import Menu from "../components/base/menu";
+import WorkList from "../components/display/list";
 import Button from "../components/fields/button";
 import { graphqlRequest } from "../utils/api";
 import { Router, Link } from "../routes";
@@ -34,7 +35,9 @@ const Works = props => {
           />
         </Container>
         <Container>
-
+          <WorkList works={props.viewer.works.edges} />
+        </Container>
+        <Container>
           <ul>
             {props.viewer.works.edges.map(work =>
               <li key={work.node.id}>
