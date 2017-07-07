@@ -20,14 +20,14 @@ const Works = props => {
 };
 
 Works.getInitialProps = async ({ req }) => {
+
   const res = await graphqlRequest(`query {
-    viewer {
-      id
-      username
+    work(id:"V29ya1R5cGU6Mw==") {
+      title
     }
-  }`, req);
-  const json = await res.json();
-  return json.data;
-};
+  }`, req)
+  const json = await res.json()
+  return json.data
+}
 
 export default Works;

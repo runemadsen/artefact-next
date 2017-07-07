@@ -11,7 +11,8 @@ import {
 
 import {
   connectionDefinitions,
-  globalIdField
+  globalIdField,
+  fromGlobalId
 } from 'graphql-relay';
 
 import { nodeInterface } from './node';
@@ -65,6 +66,21 @@ export const WorkType = new GraphQLObjectType({
     }
   })
 });
+
+export const findWork = (value, { id }, req) => {
+
+  if(!req.user) {
+    throw new GraphQLError(AUTH_ERROR);
+  }
+
+  if(!id) {
+    throw new GraphQLError(EMPTY_ERROR);
+  }
+
+  const { id: tableId } = fromGlobalId(unescape(id));
+
+  return find('works', { id:tableId, userId:req.user.id, opts:{ limit:1} }).then((rows) => rows[0])
+}
 
 // Connection
 // ----------------------------------------------------

@@ -1,11 +1,10 @@
-import Link from 'next/link'
-import Header from '../components/base/header'
-import Main from '../components/base/main'
-import Container from '../components/base/container'
-import Menu from '../components/base/menu'
-import Button from '../components/fields/button'
-import { graphqlRequest } from '../utils/api'
-import { Router } from '../routes'
+import Header from '../components/base/header';
+import Main from '../components/base/main';
+import Container from '../components/base/container';
+import Menu from '../components/base/menu';
+import Button from '../components/fields/button';
+import { graphqlRequest } from '../utils/api';
+import { Router, Link } from '../routes';
 
 const newWorkSubmit = async (e) => {
   e.preventDefault()
@@ -32,7 +31,10 @@ const Works = (props) => {
 
         <ul>
           {props.viewer.works.edges.map(work =>
-            <li key={work.node.id}>{work.node.title}</li>
+            <li key={work.node.id}>
+              {work.node.title} &nbsp;&nbsp;
+              <Link route='Work' params={{id: work.node.id }}><a>Edit work</a></Link>
+            </li>
           )}
         </ul>
       </Container>
