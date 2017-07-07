@@ -13,8 +13,8 @@ import { find } from '../db';
 import { WorkConnectionType } from './works';
 import { nodeInterface } from './node';
 
-export const UserQueryType = new GraphQLObjectType({
-  name: 'User',
+export const UserType = new GraphQLObjectType({
+  name: 'UserType',
   interfaces: [ nodeInterface ],
   fields: () => ({
     id: globalIdField(),
@@ -37,7 +37,7 @@ export const UserQueryType = new GraphQLObjectType({
 });
 
 // resolve function to get the current logged in user
-export const resolveViewer = (obj, args, req) => {
+export const findViewer = (obj, args, req) => {
   if(req.user) {
     return {
       id: req.user.id,

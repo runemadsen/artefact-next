@@ -62,6 +62,7 @@ class SignUp extends Component {
             label="Sign Up"
             wide
           />
+
         </form>
         <style jsx>{`
           form {

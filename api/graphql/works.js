@@ -4,24 +4,27 @@ import {
   GraphQLBoolean,
   GraphQLString,
   GraphQLInt,
-  GraphQLError
+  GraphQLID,
+  GraphQLError,
+  GraphQLNonNull
 } from 'graphql';
 
 import {
   connectionDefinitions,
-  globalIdField
+  globalIdField,
+  fromGlobalId
 } from 'graphql-relay';
 
 import { nodeInterface } from './node';
-import { AUTH_ERROR } from '../constants';
+import { AUTH_ERROR, EMPTY_ERROR } from '../constants';
 import { find, create } from '../db';
 import { PersonQueryType } from './persons';
 
 // Query
 // ----------------------------------------------------
 
-export const WorkQueryType = new GraphQLObjectType({
-  name: 'WorkQueryType',
+export const WorkType = new GraphQLObjectType({
+  name: 'WorkType',
   interfaces: [ nodeInterface ],
   fields: () => ({
     id: globalIdField(),
@@ -64,16 +67,31 @@ export const WorkQueryType = new GraphQLObjectType({
   })
 });
 
+export const findWork = (value, { id }, req) => {
+
+  if(!req.user) {
+    throw new GraphQLError(AUTH_ERROR);
+  }
+
+  if(!id) {
+    throw new GraphQLError(EMPTY_ERROR);
+  }
+
+  const { id: tableId } = fromGlobalId(unescape(id));
+
+  return find('works', { id:tableId, userId:req.user.id, opts:{ limit:1} }).then((rows) => rows[0])
+}
+
 // Connection
 // ----------------------------------------------------
 
-export const { connectionType: WorkConnectionType } = connectionDefinitions({ nodeType: WorkQueryType });
+export const { connectionType: WorkConnectionType } = connectionDefinitions({ nodeType: WorkType });
 
-// Mutation
+// Mutation: Create
 // ----------------------------------------------------
 
-export const WorkMutationType = new GraphQLInputObjectType({
-  name: 'WorkMutationType',
+export const WorkCreateType = new GraphQLInputObjectType({
+  name: 'WorkCreateType',
   fields: {
     title: { type: GraphQLString },
     medium: { type: GraphQLString },
@@ -87,10 +105,7 @@ export const WorkMutationType = new GraphQLInputObjectType({
   }
 });
 
-// Create Work Mutation
-// ----------------------------------------------------
-
-export const resolveCreateWork = (value, { work }, req) => {
+export const createWork = async (value, { work }, req) => {
 
   if(!req.user) {
     throw new GraphQLError(AUTH_ERROR);
@@ -102,9 +117,49 @@ export const resolveCreateWork = (value, { work }, req) => {
   }
 
   // Make work belong to logged in user
-  work.userId = req.user.id
+  work.userId = req.user.id;
 
-  // TODO: Handle editions!
+  // Create work
+  const workRow = await create('works', work).then((rows) => rows[0]);
+
+  // Create edition if needed
+  if(!work.editioned) {
+    const editionRow = await create('editions', { editionType:'ONLY', workId:workRow.id })
+  }
+
+  return workRow;
+}
+
+// Mutation: Update
+// ----------------------------------------------------
+
+export const WorkUpdateType = new GraphQLInputObjectType({
+  name: 'WorkUpdateType',
+  fields: {
+    id: { type: new GraphQLNonNull(GraphQLID) },
+    title: { type: GraphQLString },
+    medium: { type: GraphQLString },
+    width: { type: GraphQLInt },
+    height: { type: GraphQLInt },
+    depth: { type: GraphQLInt },
+    dimensionUnit: { type: GraphQLString },
+    dimensionText: { type: GraphQLString },
+    editioned: { type: GraphQLBoolean },
+    artistId: { type: GraphQLInt }
+  }
+});
+
+export const updateWork = (value, { work }, req) => {
+
+  if(!req.user) {
+    throw new GraphQLError(AUTH_ERROR);
+  }
+
+  if(!work) {
+    throw new GraphQLError(EMPTY_ERROR);
+  }
+
+  // HANDLE EDITIONS!
 
   return create('works', work).then((rows) => rows[0])
 }

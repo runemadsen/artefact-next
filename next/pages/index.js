@@ -2,7 +2,7 @@ import Link from "next/link";
 import Router from "next/router";
 import fetch from "isomorphic-unfetch";
 
-import { graphqlQuery, postRequest } from "../utils/api";
+import { graphqlRequest, postRequest } from '../utils/api'
 
 import Header from "../components/base/header";
 import Main from "../components/base/main";
@@ -57,17 +57,14 @@ const Index = props => {
 };
 
 Index.getInitialProps = async ({ req }) => {
-  const res = await graphqlQuery(
-    req,
-    `{
+  const res = await graphqlRequest(`query {
     viewer {
       id
       username
     }
-  }`
-  );
-  const json = await res.json();
-  return json.data;
-};
+  }`, req)
+  const json = await res.json()
+  return json.data
+}
 
 export default Index;

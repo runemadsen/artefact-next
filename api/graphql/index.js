@@ -1,7 +1,7 @@
 import graphqlHTTP from 'express-graphql';
 import pluralize from 'pluralize';
-import { WorkQueryType, WorkConnectionType, WorkMutationType, resolveCreateWork } from './works';
-import { UserQueryType, resolveViewer } from './users';
+import { WorkType, WorkConnectionType, WorkCreateType, WorkUpdateType, updateWork, createWork, findWork } from './works';
+import { UserType, findViewer } from './users';
 import { nodeField } from './node';
 
 import {
@@ -38,8 +38,17 @@ const RootQueryType = new GraphQLObjectType({
 
     // Returns the currently logged in user
     viewer: {
-      type: UserQueryType,
-      resolve: resolveViewer
+      type: UserType,
+      resolve: findViewer
+    },
+
+    // Returns a work
+    work: {
+      type: WorkType,
+      resolve: findWork,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) }
+      }
     }
   }
 })
@@ -51,11 +60,18 @@ const RootMutationType = new GraphQLObjectType({
   name: 'RootMutationType',
   fields: {
     createWork: {
-      type: WorkQueryType,
+      type: WorkType,
+      resolve: createWork,
       args: {
-        work: { type: WorkMutationType }
-      },
-      resolve: resolveCreateWork
+        input: { type: WorkCreateType }
+      }
+    },
+    updateWork: {
+      type: WorkType,
+      resolve: updateWork,
+      args: {
+        input: { type: WorkUpdateType }
+      }
     }
   }
 })
