@@ -52,7 +52,6 @@ const workType = new GraphQLObjectType({
   interfaces: [ nodeInterface ],
   fields: () => ({
     id: globalIdField(),
-    userId: { type: GraphQLInt },
     title: {
       type: GraphQLString,
       description: 'The title of the artwork.'
