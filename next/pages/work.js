@@ -1,7 +1,7 @@
 import Header from "../components/base/header";
 import Main from "../components/base/main";
 import NewWorkForm from "../components/forms/newWorkForm";
-import { graphqlQuery } from "../utils/api";
+import { graphqlRequest } from "../utils/api";
 
 const Works = props => {
   const handleOnChange = (k, v) => {
@@ -20,17 +20,14 @@ const Works = props => {
 };
 
 Works.getInitialProps = async ({ req }) => {
-  const res = await graphqlQuery(
-    req,
-    `{
-    viewer {
-      id
-      username
+
+  const res = await graphqlRequest(`query {
+    work(id:"V29ya1R5cGU6Mw==") {
+      title
     }
-  }`
-  );
-  const json = await res.json();
-  return json.data;
-};
+  }`, req)
+  const json = await res.json()
+  return json.data
+}
 
 export default Works;

@@ -29,7 +29,7 @@ class SignIn extends Component {
         <form onSubmit={ (e) => this.handleSubmit(e) }>
           <Input onChange={this.handleInputOnChange} type="text" id="signInUsername" name="username" placeholder="Your Username" autoComplete="off" autoCapitalize="off" validate="^\S+$" validateMessage="No spaces please"/>
           <Input onChange={this.handleInputOnChange} type="password" id="signInPassword" name="password" placeholder="Your Password" />
-          <Button onClick={this.handleSubmit} type="submit" label="Sign In" right/>
+          <Button type="submit" label="Sign In" right/>
         </form>
         <style jsx>{`
           form{
