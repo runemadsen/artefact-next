@@ -52,7 +52,7 @@ CREATE TABLE editions (
   price numeric,
   currency text DEFAULT 'USD',
   status text,
-  work_id bigserial REFERENCES works (id),
+  work_id bigserial REFERENCES works (id) NOT NULL,
   collection_id bigint REFERENCES people (id),
   location_id bigint REFERENCES people (id)
 );

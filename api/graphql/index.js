@@ -1,6 +1,6 @@
 import graphqlHTTP from 'express-graphql';
 import pluralize from 'pluralize';
-import { WorkQueryType, WorkConnectionType, WorkMutationType, resolveCreateWork } from './works';
+import { WorkType, WorkConnectionType, WorkCreateType, createWork, WorkUpdateType, updateWork } from './works';
 import { UserQueryType, resolveViewer } from './users';
 import { nodeField } from './node';
 
@@ -51,11 +51,18 @@ const RootMutationType = new GraphQLObjectType({
   name: 'RootMutationType',
   fields: {
     createWork: {
-      type: WorkQueryType,
+      type: WorkType,
       args: {
-        work: { type: WorkMutationType }
+        input: { type: WorkCreateType }
       },
-      resolve: resolveCreateWork
+      resolve: createWork
+    },
+    updateWork: {
+      type: WorkType,
+      args: {
+        input: { type: WorkUpdateType }
+      },
+      resolve: updateWork
     }
   }
 })
