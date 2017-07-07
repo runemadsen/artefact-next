@@ -9,6 +9,7 @@ import {
   connectionFromPromisedArray
 } from 'graphql-relay';
 
+import { find } from '../db';
 import { WorkConnectionType } from './works';
 import { nodeInterface } from './node';
 
