@@ -17,7 +17,7 @@ class Onboarding extends Component {
 
   handleOnChange(name, value){
     this.props.onChange(name, value)
-    console.log('changed %s to %s', name, value )
+    // console.log('changed %s to %s', name, value )
     let newState = {}
     newState[name]=value
     this.setState(newState)
@@ -25,35 +25,36 @@ class Onboarding extends Component {
 
 
   render() {
+    let profile = this.props.profile || this.state
     return (
       <div>
         <h1>Welcome!</h1>
-        <p>Now tell me a little bit about you</p>
+        <p>Now tell me a little bit about yourself...</p>
         <form>
           <Status status="saved" />
-          <Input label="name" name="name" value={this.state.name} name="name"
+          <Input label="name" name="name" value={profile.name} name="name"
             onChange={this.handleOnChange} autoCapitalize="words"/>
-          <Input label="email" name="email" type="email" value={this.state.email}
+          <Input label="email" name="email" type="email" value={profile.email}
             onChange={this.handleOnChange} autoCapitalize="off"/>
-          <Input label="phone" name="phone" type="tel" value={this.state.phone}
+          <Input label="phone" name="phone" type="tel" value={profile.phone}
             onChange={this.handleOnChange}/>
-          <Input label="address" name="address_1" value={this.state.address_1}
+          <Input label="address" name="address_1" value={profile.address_1}
             onChange={this.handleOnChange}/>
-          <Input label name="address_2" value={this.state.address_2}
+          <Input label name="address_2" value={profile.address_2}
             onChange={this.handleOnChange}/>
           <Input>
-            <Input label="city" name="city" value={this.state.city}
+            <Input label="city" name="city" value={profile.city}
               onChange={this.handleOnChange} autoCapitalize="words"/>
-            <Input label="postal code" name="postal" value={this.state.postal}
+            <Input label="postal code" name="postal" value={profile.postal}
               onChange={this.handleOnChange}/>
           </Input>
           <Input>
-            <Input label="state" name="state" value={this.state.state}
+            <Input label="state" name="state" value={profile.state}
               onChange={this.handleOnChange} autoCapitalize="words"/>
-            <Input label="country" name="country" value={this.state.country}
+            <Input label="country" name="country" value={profile.country}
               onChange={this.handleOnChange}/>
           </Input>
-          <Toggle label="type" name="type" value={this.state.type}
+          <Toggle label="type" name="type" value={profile.type}
             options={['Artist','Collector']} onChange={this.handleOnChange} />
         </form>
       </div>
