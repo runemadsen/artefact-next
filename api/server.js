@@ -1,5 +1,5 @@
 import express from 'express';
-import graphql from './graphql';
+import graphql from './graphql/index';
 import compression from 'compression';
 import passport from 'passport';
 import Strategy from 'passport-local';
