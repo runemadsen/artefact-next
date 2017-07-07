@@ -33,7 +33,7 @@ class SignUp extends Component {
           validate="^\S+$" validateMessage="No spaces please"/>
           <Input onChange={this.handleInputOnChange} type="email" id="signUpUsername" name="email" placeholder="Your Email"/>
           <Input onChange={this.handleInputOnChange} type="password" id="signUpPassword" name="password" placeholder="Pick a Password" />
-          <Button onClick={this.handleSubmit} type="submit" label="Sign Up" right/>
+          <Button type="submit" label="Sign Up" right/>
         </form>
         <style jsx>{`
           form{

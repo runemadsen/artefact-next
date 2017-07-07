@@ -5,10 +5,10 @@ import classnames from "classnames";
 import { color, font, layout } from "../../styles/constants";
 
 const Button = props => {
-  let { label, href, type, small, wide } = props;
+  let { label, type, small, wide, onClick } = props;
   let classes = classnames({ small, wide });
   return (
-    <button type={type} href={href} className={classes}>
+    <button type={type} className={classes} onClick={onClick}>
       {label}
       <style jsx>{`
         button {
@@ -48,9 +48,9 @@ const Button = props => {
 };
 
 Button.propTypes = {
-  onClick: PropTypes.func,
-  to: PropTypes.string,
-  href: PropTypes.string
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onClick: PropTypes.func
 };
 
 export default Button;

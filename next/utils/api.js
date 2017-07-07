@@ -3,7 +3,7 @@ import fetch from 'isomorphic-unfetch'
 // POST request
 // -----------------------------------------------------
 
-const postRequest = async (url, body) => {
+export const postRequest = async (url, body) => {
 
   const res = await fetch(url, {
     method: 'POST',
@@ -19,21 +19,21 @@ const postRequest = async (url, body) => {
 
 }
 
-// GraphQL Query
+// GraphQL
 // -----------------------------------------------------
 
-const graphqlQuery = async (req, query) => {
+export const graphqlRequest = async (query, req) => {
 
   let params = {
     method: 'POST',
+    body: JSON.stringify({
+      query: query
+    }),
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      query: query
-    })
+    }
   }
 
   // If this call is made from the server, grab the next.js cookie
@@ -43,14 +43,5 @@ const graphqlQuery = async (req, query) => {
   }
 
   const res = await fetch(API_BASE_URL + '/graphql', params)
-
   return res
-}
-
-// TODO: GraphQL Mutation
-// -----------------------------------------------------
-
-export {
-  postRequest,
-  graphqlQuery
 }

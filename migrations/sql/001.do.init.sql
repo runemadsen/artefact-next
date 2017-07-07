@@ -33,7 +33,7 @@ CREATE TABLE people (
 CREATE TABLE works (
   id bigserial primary key,
   user_id bigserial REFERENCES users (id) NOT NULL,
-  title text,
+  title text DEFAULT 'Untitled',
   medium text,
   width numeric,
   height numeric,

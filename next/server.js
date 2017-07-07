@@ -1,18 +1,20 @@
-const express = require('express')
-const next = require('next')
-const bodyParser  = require('body-parser')
-const cookieParser = require('cookie-parser')
-const {parse}  = require('url')
-const { join } = require('path')
+const express = require('express');
+const next = require('next');
+const bodyParser  = require('body-parser');
+const cookieParser = require('cookie-parser');
+const {parse}  = require('url');
+const { join } = require('path');
 
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+// const handle = app.getRequestHandler();
+const routes = require('./routes');
+const handle = routes.getRequestHandler(app);
 
 app.prepare()
 .then(() => {
-  const server = express()
-  server.use(cookieParser())
+  const server = express();
+  server.use(cookieParser());
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: true }));
 
@@ -23,12 +25,11 @@ app.prepare()
     const sessionId = req.body.sessionId
     res.cookie('artefact.sid', sessionId, { maxAge: 28908000000, httpOnly: true });
     return res.status(200).json({message: "Cookie created with session id: " + sessionId});
-  })
+  });
 
   server.get('*', (req, res) => {
     return handle(req, res)
   })
-
 
   server.listen(3000, (err) => {
     if (err) throw err
