@@ -4,7 +4,6 @@
   ],
   "plugins": [
     [ "transform-define", "./load-env.js"],
-    ["transform-css-import-to-string"],
-    ["static-fs"]
+    ["transform-css-import-to-string"]
   ]
 }

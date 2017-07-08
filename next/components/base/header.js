@@ -9,7 +9,7 @@ export default ({ viewer, title }) =>
   <header>
     <Head>
       <title>{title ? title : "Artefact"}</title>
-      <link rel="icon" type="image/png" href="/favicon.png" />
+      <link rel="icon" type="image/png" href="/static/favicon.png" />
     </Head>
     <style jsx global>{`
     body {
