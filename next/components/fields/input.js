@@ -13,8 +13,9 @@ export default class Input extends Component {
     this.onBlur = this.onBlur.bind(this);
   }
   onChange(e) {
-    let { name, validate } = this.props;
+    let { name, type, validate } = this.props;
     let { value } = e.target;
+    value = type === "number" ? Number(value) : value;
     if (validate && !new RegExp(validate).test(value)) {
       this.setState({ invalid: true });
     } else {
@@ -29,47 +30,38 @@ export default class Input extends Component {
     this.setState({ focus: false });
   }
   render() {
-    let {
-      className,
-      children,
-      label,
-      name,
-      value,
-      type,
-      placeholder,
-      step,
-      size,
-      autoCapitalize
-    } = this.props;
-    type = type || "text";
+    let { props } = this;
+    let type = props.type || "text";
     let inputClass = classnames(
-      className,
+      props.className,
       "input_container",
       {
         [`type_${type}`]: type,
-        [`size_${size}`]: size,
+        [`size_${props.size}`]: props.size,
         [`invalid`]: this.state.invalid,
         [`focused`]: this.state.focus
       },
-      { with_label: label }
+      { with_label: props.label }
     );
 
     return (
       <div className={inputClass} onFocus={this.onFocus} onBlur={this.onBlur}>
-        {label ? <label htmlFor={name}>{label}</label> : null}
-        {children
-          ? <div className="group">{children}</div>
+        {props.label ? <label htmlFor={props.name}>{props.label}</label> : null}
+        {props.children
+          ? <div className="group">{props.children}</div>
           : <input
-              name={name}
+              className={props.after ? "with_after" : null}
+              name={props.name}
               type={type}
-              step={step}
-              value={value}
-              placeholder={placeholder}
+              step={props.step}
+              value={props.value}
+              placeholder={props.placeholder}
               onChange={this.onChange}
-              autoCapitalize={autoCapitalize}
+              autoCapitalize={props.autoCapitalize}
             />}
-        <style jsx>
-          {`
+        {props.after ? <span className="after">{props.after}</span> : null}
+        {this.state.invalid ? <p>{props.validateMessage}</p> : null}
+        <style jsx>{`
           .input_container {
             width: 100%;
             margin-bottom: ${layout.space};
@@ -80,6 +72,11 @@ export default class Input extends Component {
             clear: both;
             height: 0;
             font-size: 0;
+          }
+          .after{
+            width: 20%;
+            display:inline-block;
+            text-align: center;
           }
           label {
             position: absolute;
@@ -96,6 +93,9 @@ export default class Input extends Component {
             border: none;
             height: ${layout.input.height};
             border-bottom: ${layout.border};
+          }
+          input.with_after{
+            width: 80%;
           }
           .group{
             border-bottom: ${layout.border};
@@ -115,8 +115,7 @@ export default class Input extends Component {
           .invalid input {
             border-bottom-color: red;
           }
-        `}
-        </style>
+          `}</style>
       </div>
     );
   }

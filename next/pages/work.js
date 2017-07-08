@@ -1,33 +1,47 @@
 import Header from "../components/base/header";
 import Main from "../components/base/main";
-import NewWorkForm from "../components/forms/newWorkForm";
+import Container from "../components/base/container";
+import WorkForm from "../components/forms/workForm";
+import IconButton from "../components/elements/iconButton";
 import { graphqlRequest } from "../utils/api";
 
-const Works = props => {
+const Work = props => {
   const handleOnChange = (k, v) => {
     console.log("changed %s to %s", k, v);
   };
+  const handleTrash = () => {
+    console.log("trash!");
+  };
+  console.log(props);
   return (
     <div>
       <Header viewer={props.viewer} />
       <Main>
-        <h1>New Work</h1>
-        <p>This is the new work page.</p>
-        <NewWorkForm onChange={handleOnChange} />
+        <h1>{props.work.title || "New Work"}</h1>
+        <Container right>
+          <IconButton name="trash" onClick={handleTrash} />
+        </Container>
+        <WorkForm onChange={handleOnChange} work={props.work} />
       </Main>
     </div>
   );
 };
 
-Works.getInitialProps = async ({ req }) => {
+Work.getInitialProps = async ({ req }) => {
+  // is this the right way?
+  let id = req.url.split("/").pop();
   const res = await graphqlRequest(
     `query {
     viewer {
       id
       username
     }
-    work(id:"V29ya1R5cGU6Mw==") {
+    work(id:"${id}") {
       title
+      width
+      height
+      depth
+      dimensionUnit
     }
   }`,
     req
@@ -36,4 +50,4 @@ Works.getInitialProps = async ({ req }) => {
   return json.data;
 };
 
-export default Works;
+export default Work;

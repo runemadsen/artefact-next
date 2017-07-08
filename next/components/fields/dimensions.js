@@ -23,8 +23,10 @@ export default class Dimensions extends Component {
     const step = val == "in" ? 0.25 : 0.1;
     this.keys.forEach(k => {
       console.log(k, props[k]);
-      if (props[k])
-        this.props.onChange(k, Math.round(props[k] * conversion / step) * step);
+      if (props[k]) {
+        let roundedByStep = Math.round(props[k] * conversion / step) * step;
+        this.props.onChange(k, Math.round(roundedByStep * 100) / 100);
+      }
     });
     this.props.onChange(name, val);
   }
@@ -39,13 +41,14 @@ export default class Dimensions extends Component {
         {this.keys.map((name, i) => {
           return (
             <Input
-              className="quarter"
+              className={classnames("quarter")}
               key={`${this.props.name}-${name}`}
               name={name}
               type="number"
               step={props.dimensionunit == "in" ? "0.25" : "1"}
               min="0"
               value={props[name]}
+              after={i < 2 ? "×" : null}
               placeholder={name}
               onChange={that.handleOnChange}
             />
@@ -61,9 +64,6 @@ export default class Dimensions extends Component {
         <style jsx>{`
           .group {
             display: block;
-          }
-          .group :global(.quarter) {
-            width: 25%;
           }
         `}</style>
       </Input>

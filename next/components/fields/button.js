@@ -10,6 +10,7 @@ const Button = props => {
   return (
     <button type={type} className={classes} onClick={onClick}>
       {label}
+      {props.children}
       <style jsx>{`
         button {
           display: inline-block;
@@ -48,8 +49,8 @@ const Button = props => {
 };
 
 Button.propTypes = {
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  type: PropTypes.string,
   onClick: PropTypes.func
 };
 
