@@ -13,16 +13,16 @@ const Works = props => {
       <Main>
         <h1>New Work</h1>
         <p>This is the new work page.</p>
-        <NewWorkForm onChange={handleOnChange} />
+        <NewWorkForm onChange={handleOnChange} work={props.work} />
       </Main>
     </div>
   );
 };
 
-Works.getInitialProps = async ({ req }) => {
+Works.getInitialProps = async ({ req, query }) => {
 
   const res = await graphqlRequest(`query {
-    work(id:"V29ya1R5cGU6Mw==") {
+    work(id:"${query.id}") {
       title
     }
   }`, req)
