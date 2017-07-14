@@ -2,7 +2,9 @@ import Header from "../components/base/header";
 import Main from "../components/base/main";
 import Container from "../components/base/container";
 import Menu from "../components/base/menu";
-import WorkList from "../components/display/list";
+import Searchbar from "../components/filter/searchbar";
+import List from "../components/display/list";
+import ListItem from "../components/display/listItem";
 import Button from "../components/fields/button";
 import { graphqlRequest } from "../utils/api";
 import { Router, Link } from "../routes";
@@ -19,7 +21,6 @@ const newWorkSubmit = async e => {
 };
 
 const Works = props => {
-  console.log(props.viewer);
   return (
     <div>
       <Header viewer={props.viewer} />
@@ -27,6 +28,7 @@ const Works = props => {
 
         <h1>Works</h1>
         <Container right>
+          <Searchbar />
           <Button
             type="button"
             small
@@ -35,20 +37,13 @@ const Works = props => {
           />
         </Container>
         <Container>
-          <WorkList works={props.viewer.works.edges} />
+          <List>
+            {props.viewer.works.edges.map((w, i) => {
+              return <ListItem key={`work-${i}`} work={w.node} />;
+            })}
+          </List>
         </Container>
-        <Container>
-          <ul>
-            {props.viewer.works.edges.map(work =>
-              <li key={work.node.id}>
-                {work.node.title} &nbsp;&nbsp;
-                <Link route="Work" params={{ id: work.node.id }}>
-                  <a>Edit work</a>
-                </Link>
-              </li>
-            )}
-          </ul>
-        </Container>
+
       </Main>
     </div>
   );

@@ -12,14 +12,13 @@ const Work = props => {
   const handleTrash = () => {
     console.log("trash!");
   };
-  console.log(props);
   return (
     <div>
       <Header viewer={props.viewer} />
       <Main>
         <h1>{props.work.title || "New Work"}</h1>
         <Container right>
-          <IconButton name="trash" onClick={handleTrash} />
+          <IconButton name="trash" onClick={handleTrash} label="Delete" />
         </Container>
         <WorkForm onChange={handleOnChange} work={props.work} />
       </Main>

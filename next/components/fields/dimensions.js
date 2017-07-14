@@ -22,7 +22,6 @@ export default class Dimensions extends Component {
     const conversion = val == "in" ? 1 / 2.56 : 2.56;
     const step = val == "in" ? 0.25 : 0.1;
     this.keys.forEach(k => {
-      console.log(k, props[k]);
       if (props[k]) {
         let roundedByStep = Math.round(props[k] * conversion / step) * step;
         this.props.onChange(k, Math.round(roundedByStep * 100) / 100);

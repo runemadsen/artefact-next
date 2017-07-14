@@ -17,7 +17,7 @@ export default class Select extends Component {
     this.onBlur = this.onBlur.bind(this);
   }
   onChange(e) {
-    console.log(e);
+    // console.log(e);
     let value = e ? e.value : null;
     this.props.onChange(this.props.name, value);
   }
@@ -132,6 +132,8 @@ export default class Select extends Component {
           .Select:hover .Select-arrow {
             opacity: 1;
           }
+          .Select-clear-zone { opacity: 0;}
+          .Select:hover .Select-clear-zone { opacity: 1;}
           .is-open .Select-arrow,
           .Select-arrow-zone:hover > .Select-arrow {
             border-top-color: ${color.highlight};

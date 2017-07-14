@@ -18,7 +18,6 @@ class SignIn extends Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state.username, this.state.password);
     this.props.onSubmit(this.state.username, this.state.password);
   }
 
