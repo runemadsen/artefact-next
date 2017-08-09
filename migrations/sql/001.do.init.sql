@@ -15,10 +15,10 @@ CREATE TABLE "session" (
 WITH (OIDS=FALSE);
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
-CREATE TABLE people (
+CREATE TABLE contacts (
   id bigserial primary key,
   user_id bigint REFERENCES users (id),
-  type text,
+  contact_type text,
   name text,
   company text,
   address1 text,
@@ -43,7 +43,7 @@ CREATE TABLE works (
   dimension_text text,
   notes text,
   editioned boolean DEFAULT false,
-  artist_id bigint REFERENCES people (id),
+  artist_id bigint REFERENCES contacts (id),
   work_created_at timestamp with time zone,
   created_at timestamp with time zone NOT NULL default now()
 );
@@ -56,8 +56,8 @@ CREATE TABLE editions (
   currency text DEFAULT 'USD',
   status text,
   work_id bigserial REFERENCES works (id) NOT NULL,
-  collection_id bigint REFERENCES people (id),
-  location_id bigint REFERENCES people (id),
+  collection_id bigint REFERENCES contacts (id),
+  location_id bigint REFERENCES contacts (id),
   created_at timestamp with time zone NOT NULL default now()
 );
 

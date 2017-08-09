@@ -18,7 +18,7 @@ import {
 import { nodeInterface } from './node';
 import { AUTH_ERROR, EMPTY_ERROR } from '../constants';
 import { find, create } from '../db';
-import { PersonQueryType } from './persons';
+import { ContactType } from './contacts';
 
 // Query
 // ----------------------------------------------------
@@ -61,10 +61,10 @@ export const WorkType = new GraphQLObjectType({
       description: 'The date the artwork was created.'
     },
     artist: {
-      type: PersonQueryType,
+      type: ContactType,
       description: 'The artist who created the artwork.',
       resolve: (work, args) => {
-        return find('people', { id:work.artistId, opts: { limit: 1 }})
+        return find('contacts', { id:work.artistId, opts: { limit: 1 }})
           .then(rows => rows[0])
       }
     }

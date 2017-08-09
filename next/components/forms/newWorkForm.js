@@ -11,7 +11,7 @@ export default class NewWorkForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = props.work;
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
@@ -23,34 +23,33 @@ export default class NewWorkForm extends Component {
   }
 
   render() {
-    let work = this.props.work || this.state;
     return (
       <form>
         <Input
           label="title"
           name="title"
-          value={work.title}
+          value={this.state.title}
           placeholder="Artwork's Title"
           onChange={this.handleOnChange}
         />
         <MonthYearPicker
           label="creation date"
-          value={work.workCreatedAt}
-          name="createdat"
+          value={this.state.workCreatedAt}
+          name="workCreatedAt"
           onChange={this.handleOnChange}
         />
         <Select
           label="artist"
-          name="artist"
-          value={work.artist}
+          name="artistId"
+          value={this.state.artistId}
           placeholder="Artist"
           onChange={this.handleOnChange}
-          options={["Martin", "Rune", "Alex"]}
+          options={this.props.contacts.map(c => ({ label: c.name, value: c.id })) }
         />
         <Select
           label="medium"
           name="medium"
-          value={work.medium}
+          value={this.state.medium}
           placeholder="Oil, Metal,..."
           onChange={this.handleOnChange}
           creatable
@@ -59,16 +58,16 @@ export default class NewWorkForm extends Component {
         <Dimensions
           label="dimensions"
           name="dimensions"
-          width={work.width}
-          height={work.height}
-          depth={work.depth}
-          dimensionunit={work.dimensionUnit}
+          width={this.state.width}
+          height={this.state.height}
+          depth={this.state.depth}
+          dimensionunit={this.state.dimensionUnit}
           onChange={this.handleOnChange}
         />
         <Input
           label=" "
           name="dimensions_words"
-          value={work.dimensionText}
+          value={this.state.dimensionText}
           placeholder="Or describe it in words"
           onChange={this.handleOnChange}
         />
@@ -76,7 +75,7 @@ export default class NewWorkForm extends Component {
         <Toggle
           name="editioned"
           label="editioned"
-          value={work.editioned}
+          value={this.state.editioned}
           options={[
             { value: false, label: "Single" },
             { value: true, label: "Editioned" }
@@ -89,6 +88,7 @@ export default class NewWorkForm extends Component {
 }
 
 NewWorkForm.propTypes = {
-  work: PropTypes.object,
+  work: PropTypes.object.isRequired,
+  contacts: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired
 };

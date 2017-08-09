@@ -1,5 +1,6 @@
 import {
   GraphQLObjectType,
+  GraphQLString,
   GraphQLID
 } from 'graphql';
 
@@ -11,6 +12,7 @@ import {
 
 import { find } from '../db';
 import { WorkConnectionType } from './works';
+import { ContactConnectionType } from './contacts';
 import { nodeInterface } from './node';
 
 export const UserType = new GraphQLObjectType({
@@ -27,9 +29,27 @@ export const UserType = new GraphQLObjectType({
       description: 'The artworks created by the user.',
       args: connectionArgs,
       resolve: (user, args) => {
-        // TODO: This will fetch every work by user and filter server-side
+        // TODO: This will fetch every work by user and filter server-side for pagination
         // Write logic that limit/orders results by first/last/cursor
         const query = find('works', { userId:user.id })
+        return connectionFromPromisedArray(query, args)
+      }
+    },
+    contacts: {
+      type: ContactConnectionType,
+      description: 'The contacts created by the user.',
+      args: {
+        ...connectionArgs,
+        contactType: { type: GraphQLString }
+      },
+      resolve: (user, args) => {
+
+        let filter = { userId: user.id };
+        if(args.contactType) filter.contactType = args.contactType;
+
+        // TODO: This will fetch every work by user and filter server-side for pagination
+        // Write logic that limit/orders results by first/last/cursor
+        const query = find('contacts', filter)
         return connectionFromPromisedArray(query, args)
       }
     }

@@ -1,6 +1,14 @@
 import graphqlHTTP from 'express-graphql';
 import pluralize from 'pluralize';
-import { WorkType, WorkConnectionType, WorkCreateType, WorkUpdateType, updateWork, createWork, findWork } from './works';
+import {
+  WorkType,
+  WorkConnectionType,
+  WorkCreateType,
+  WorkUpdateType,
+  updateWork,
+  createWork,
+  findWork
+} from './works';
 import { UserType, findViewer } from './users';
 import { nodeField } from './node';
 

@@ -13,7 +13,7 @@ const Works = props => {
       <Main>
         <h1>New Work</h1>
         <p>This is the new work page.</p>
-        <NewWorkForm onChange={handleOnChange} work={props.work} />
+        <NewWorkForm onChange={handleOnChange} work={props.work} contacts={props.viewer.contacts.edges.map(c => c.node)} />
       </Main>
     </div>
   );
@@ -21,10 +21,20 @@ const Works = props => {
 
 Works.getInitialProps = async ({ req, query }) => {
 
+  // TODO: This currently loads all artists in contacts and passes
+  // to the dropdown selector. Should we limit it? Make field do HTTP requests?
   const res = await graphqlRequest(`query {
     viewer {
       id
       username
+      contacts(contactType:"artist") {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
     }
     work(id:"${query.id}") {
       title
