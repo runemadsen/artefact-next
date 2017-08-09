@@ -15,9 +15,11 @@ export default class MonthYearPicker extends Component {
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
   }
+
   onChangeMonth(name, value) {
     this.props.onChange(this.props.name, this.date.setMonth(value));
   }
+
   onChangeYear(name, value) {
     this.props.onChange(this.props.name, this.date.setYear(value));
   }
@@ -25,9 +27,11 @@ export default class MonthYearPicker extends Component {
   onFocus() {
     this.setState({ focus: true });
   }
+
   onBlur() {
     this.setState({ focus: false });
   }
+
   render() {
     let { label, name, value, options } = this.props;
     let today = new Date();

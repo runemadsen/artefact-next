@@ -36,7 +36,7 @@ export default class NewWorkForm extends Component {
         />
         <MonthYearPicker
           label="creation date"
-          value={work.createdat}
+          value={work.createdAt}
           name="createdat"
           onChange={this.handleOnChange}
         />
