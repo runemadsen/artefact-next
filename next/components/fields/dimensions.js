@@ -22,7 +22,6 @@ export default class Dimensions extends Component {
     const conversion = val == "in" ? 1 / 2.56 : 2.56;
     const step = val == "in" ? 0.25 : 0.1;
     this.keys.forEach(k => {
-      console.log(k, props[k]);
       if (props[k])
         this.props.onChange(k, Math.round(props[k] * conversion / step) * step);
     });
@@ -43,7 +42,7 @@ export default class Dimensions extends Component {
               key={`${this.props.name}-${name}`}
               name={name}
               type="number"
-              step={props.dimensionunit == "in" ? "0.25" : "1"}
+              step={props.dimensionUnit == "in" ? "0.25" : "1"}
               min="0"
               value={props[name]}
               placeholder={name}
@@ -54,7 +53,7 @@ export default class Dimensions extends Component {
         <Toggle
           className="quarter"
           name="dimensionunit"
-          value={props.dimensionunit}
+          value={props.dimensionUnit}
           options={["cm", "in"]}
           onChange={this.handleOnChangeUnits}
         />

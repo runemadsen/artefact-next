@@ -58,9 +58,9 @@ export default class NewWorkForm extends Component {
         <Dimensions
           label="dimensions"
           name="dimensions"
-          width={this.state.width}
-          height={this.state.height}
-          depth={this.state.depth}
+          width={parseInt(this.state.width) || null}
+          height={parseInt(this.state.height) || null}
+          depth={parseInt(this.state.depth) || null }
           dimensionunit={this.state.dimensionUnit}
           onChange={this.handleOnChange}
         />
