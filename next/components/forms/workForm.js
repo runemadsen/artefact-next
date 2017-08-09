@@ -60,9 +60,9 @@ export default class WorkForm extends Component {
         <Dimensions
           label="dimensions"
           name="dimensions"
-          width={parseInt(this.state.width) || null}
-          height={parseInt(this.state.height) || null}
-          depth={parseInt(this.state.depth) || null }
+          width={parseInt(this.state.width) || 0}
+          height={parseInt(this.state.height) || 0}
+          depth={parseInt(this.state.depth) || 0 }
           dimensionunit={this.state.dimensionUnit}
           onChange={this.handleOnChange}
         />
