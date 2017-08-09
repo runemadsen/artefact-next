@@ -5,20 +5,22 @@ import Input from '../fields/input'
 import Button from '../fields/button'
 
 class SignIn extends Component {
+
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputOnChange = this.handleInputOnChange.bind(this)
     this.state={}
   }
+
   handleInputOnChange(name, value) {
     let newState = {}
     newState[name] = value
     this.setState(newState)
   }
+
   handleSubmit(e) {
     e.preventDefault()
-    console.log(this.state.username, this.state.password)
     this.props.onSubmit(this.state.username, this.state.password)
   }
 

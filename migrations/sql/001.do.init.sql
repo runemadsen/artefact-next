@@ -27,7 +27,8 @@ CREATE TABLE people (
   state text,
   postal integer,
   phone text,
-  email text
+  email text,
+  created_at timestamp with time zone NOT NULL default now()
 );
 
 CREATE TABLE works (
@@ -43,7 +44,8 @@ CREATE TABLE works (
   notes text,
   editioned boolean DEFAULT false,
   artist_id bigint REFERENCES people (id),
-  created_at timestamp with time zone
+  work_created_at timestamp with time zone,
+  created_at timestamp with time zone NOT NULL default now()
 );
 
 CREATE TABLE editions (
@@ -55,7 +57,8 @@ CREATE TABLE editions (
   status text,
   work_id bigserial REFERENCES works (id) NOT NULL,
   collection_id bigint REFERENCES people (id),
-  location_id bigint REFERENCES people (id)
+  location_id bigint REFERENCES people (id),
+  created_at timestamp with time zone NOT NULL default now()
 );
 
 CREATE FUNCTION calculateEditionNumber()
@@ -67,9 +70,9 @@ END' LANGUAGE 'plpgsql';
 
 CREATE TRIGGER editionNumber BEFORE INSERT ON editions FOR EACH ROW EXECUTE PROCEDURE calculateEditionNumber();
 
-
 CREATE TABLE images (
   id bigserial primary key,
   url text,
-  work_id bigint REFERENCES works (id)
+  work_id bigint REFERENCES works (id),
+  created_at timestamp with time zone NOT NULL default now()
 );

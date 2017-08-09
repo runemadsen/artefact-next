@@ -28,7 +28,12 @@ Works.getInitialProps = async ({ req, query }) => {
     }
     work(id:"${query.id}") {
       title
-      createdAt
+      workCreatedAt
+      width
+      height
+      depth
+      dimensionUnit
+      dimensionText
     }
   }`, req)
   const json = await res.json()

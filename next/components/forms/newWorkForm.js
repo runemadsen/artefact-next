@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-
 import classnames from "classnames";
-
 import Input from "../fields/input";
 import MonthYearPicker from "../fields/monthYearPicker";
 import Select from "../fields/select";
@@ -10,6 +8,7 @@ import Dimensions from "../fields/dimensions";
 import Toggle from "../fields/toggle";
 
 export default class NewWorkForm extends Component {
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -36,7 +35,7 @@ export default class NewWorkForm extends Component {
         />
         <MonthYearPicker
           label="creation date"
-          value={work.createdAt}
+          value={work.workCreatedAt}
           name="createdat"
           onChange={this.handleOnChange}
         />
@@ -63,13 +62,13 @@ export default class NewWorkForm extends Component {
           width={work.width}
           height={work.height}
           depth={work.depth}
-          dimensionunit={work.dimensionunit}
+          dimensionunit={work.dimensionUnit}
           onChange={this.handleOnChange}
         />
         <Input
           label=" "
           name="dimensions_words"
-          value={work.dimensions_words}
+          value={work.dimensionText}
           placeholder="Or describe it in words"
           onChange={this.handleOnChange}
         />
