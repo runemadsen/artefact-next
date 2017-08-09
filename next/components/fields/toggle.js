@@ -1,43 +1,40 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import classnames from 'classnames'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import classnames from "classnames";
 
-import {layout, color, font} from '../../styles/constants'
+import { layout, color, font } from "../../styles/constants";
 
-
-const Toggle = (props) => {
-
-  const onChange = (e) => {
-    let value = e.target.value
-    if( ['true','false'].includes(value) ){
-      value = value === 'true'
+const Toggle = props => {
+  const onChange = e => {
+    let value = e.target.value;
+    if (["true", "false"].includes(value)) {
+      value = value === "true";
     }
-    props.onChange(props.name, value)
-  }
+    props.onChange(props.name, value);
+  };
 
-  let options = props.options.map((v,i)=>{
-    return v instanceof Object ? v : {label:String(v),value:String(v).toLowerCase()}
-  })
-  let value = props.value || options[0].value
+  let options = props.options.map((v, i) => {
+    return v instanceof Object
+      ? v
+      : { label: String(v), value: String(v).toLowerCase() };
+  });
+  let value = props.value || options[0].value;
 
   let toggleClass = classnames(
     "input_container",
     "toggle",
-    {"with_label": props.label },
+    { with_label: props.label },
     props.className
-    )
-  let optionsClasses = classnames(
-    "options",
-    )
+  );
+  let optionsClasses = classnames("options");
   return (
     <div className={toggleClass}>
       {props.label ? <label htmlFor={props.name}>{props.label}</label> : null}
       <div className={optionsClasses}>
-        {options.map( ( opt, i)=>{
-          let optionClasses = classnames(
-              "option",
-            {"selected": opt.value == value }
-          )
+        {options.map((opt, i) => {
+          let optionClasses = classnames("option", {
+            selected: opt.value == value
+          });
 
           return (
             <div className={optionClasses} key={`${props.name}-option-${i}`}>
@@ -51,7 +48,7 @@ const Toggle = (props) => {
               />
               <label htmlFor={`${props.name}-option-${i}`}>{opt.label}</label>
             </div>
-          )
+          );
         })}
       </div>
       <style jsx>{`
@@ -59,6 +56,8 @@ const Toggle = (props) => {
           width: 100%;
           height: ${layout.input.height};
           border-bottom: ${layout.border};
+          margin-bottom: ${layout.space};
+
         }
         .toggle > label {
           position: absolute;
@@ -119,14 +118,21 @@ const Toggle = (props) => {
 
       `}</style>
     </div>
-  )
-}
+  );
+};
 
 Toggle.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string,PropTypes.bool,PropTypes.number]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.number
+  ]),
   name: PropTypes.string.isRequired,
-  options: PropTypes.oneOfType([PropTypes.array.isRequired,PropTypes.object.isRequired]),
-  onChange: PropTypes.func.isRequired,
-}
-export default Toggle
+  options: PropTypes.oneOfType([
+    PropTypes.array.isRequired,
+    PropTypes.object.isRequired
+  ]),
+  onChange: PropTypes.func.isRequired
+};
+export default Toggle;

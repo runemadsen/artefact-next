@@ -1,66 +1,62 @@
-import Link from 'next/link'
-import Router from 'next/router'
-import fetch from 'isomorphic-unfetch'
+import Link from "next/link";
+import Router from "next/router";
+import fetch from "isomorphic-unfetch";
 
 import { graphqlRequest, postRequest } from '../utils/api'
 
-import Header from '../components/base/header'
-import Main from '../components/base/main'
-import SignInOrSignUp from '../components/forms/signInOrSignUp'
-import Onboarding from '../components/forms/onboarding'
+import Header from "../components/base/header";
+import Main from "../components/base/main";
+import SignInOrSignUp from "../components/forms/signInOrSignUp";
+import Onboarding from "../components/forms/onboarding";
 
 const onSignIn = async (username, password) => {
-
-  const res = await postRequest(API_BASE_URL + '/users/login', {
+  const res = await postRequest(API_BASE_URL + "/users/login", {
     username: username,
     password: password
-  })
-  const json = await res.json()
-  const res2 = await postRequest('/session', {
+  });
+  const json = await res.json();
+  const res2 = await postRequest("/session", {
     sessionId: json.data.sessionId
-  })
+  });
 
-  Router.push('/')
-}
+  Router.push("/");
+};
 
 const onSignUp = async (username, password, email) => {
-
-  const res = await postRequest(API_BASE_URL + '/users', {
+  const res = await postRequest(API_BASE_URL + "/users", {
     user: {
       username: username,
       password: password,
       email: email
     }
-  })
-  const json = await res.json()
-  const res2 = await postRequest('/session', {
+  });
+  const json = await res.json();
+  const res2 = await postRequest("/session", {
     sessionId: json.data.sessionId
-  })
+  });
 
-  Router.push('/')
-}
+  Router.push("/");
+};
 
 const onProfileChange = async (name, data) => {
-  console.log("changed %s to %s", name, data)
-}
+  console.log("changed %s to %s", name, data);
+};
 
-const Index = (props) => {
-  return <div>
-    <Header viewer={props.viewer} title="Artefact" />
+const Index = props => {
+  return (
+    <div>
+      <Header viewer={props.viewer} title="Artefact" />
 
-    <Main>
-      { props.viewer
-        ?
-          <Onboarding onChange={onProfileChange}/>
-        :
-        <SignInOrSignUp onSignUp={onSignUp} onSignIn={onSignIn}/>
-      }
-    </Main>
-  </div>
-}
+      <Main>
+        {props.viewer
+          ? <Onboarding onChange={onProfileChange} profile={null} />
+          : <SignInOrSignUp onSignUp={onSignUp} onSignIn={onSignIn} />}
+      </Main>
+    </div>
+  );
+};
 
 Index.getInitialProps = async ({ req }) => {
-
   const res = await graphqlRequest(`query {
     viewer {
       id
@@ -71,4 +67,4 @@ Index.getInitialProps = async ({ req }) => {
   return json.data
 }
 
-export default Index
+export default Index;

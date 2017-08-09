@@ -1,15 +1,15 @@
-import React from 'react'
-import Head from 'next/head'
+import React from "react";
+import Head from "next/head";
 
-import {color, font} from '../../styles/constants'
+import { color, font } from "../../styles/constants";
 
-import Menu from '../base/menu'
+import Menu from "../base/menu";
 
-export default ({viewer, title}) => (
+export default ({ viewer, title }) =>
   <header>
     <Head>
       <title>{title ? title : "Artefact"}</title>
-      <link rel="icon" type="image/png" href="/favicon.png" />
+      <link rel="icon" type="image/png" href="/static/favicon.png" />
     </Head>
     <style jsx global>{`
     body {
@@ -40,7 +40,11 @@ export default ({viewer, title}) => (
       color: $color-text;
       text-decoration: none;
       border-bottom: 1px solid ${color.highlight};
-    }`}</style>
+      cursor: pointer;
+    }
+    main a:hover {
+      border-bottom-style: dashed;
+    }
+    `}</style>
     <Menu viewer={viewer} />
-  </header>
-)
+  </header>;

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Input from "../fields/input";
+import Textarea from "../fields/textarea";
 import MonthYearPicker from "../fields/monthYearPicker";
 import Select from "../fields/select";
 import Dimensions from "../fields/dimensions";
 import Toggle from "../fields/toggle";
 
-export default class NewWorkForm extends Component {
-
+export default class WorkForm extends Component {
   constructor(props) {
     super(props);
     this.state = props.work;
@@ -16,10 +16,11 @@ export default class NewWorkForm extends Component {
   }
 
   handleOnChange(name, value) {
+    this.props.onChange(name, value);
+    // this is temporary. is it?
     let newState = {};
     newState[name] = value;
     this.setState(newState);
-    this.props.onChange(name, value);
   }
 
   render() {
@@ -53,6 +54,7 @@ export default class NewWorkForm extends Component {
           placeholder="Oil, Metal,..."
           onChange={this.handleOnChange}
           creatable
+          multi={true}
           options={["Oil", "Metal", "Digital"]}
         />
         <Dimensions
@@ -80,6 +82,13 @@ export default class NewWorkForm extends Component {
             { value: false, label: "Single" },
             { value: true, label: "Editioned" }
           ]}
+          onChange={this.handleOnChange}
+        />
+        <Textarea
+          label="Notes"
+          name="notes"
+          value={work.dimensions_words}
+          placeholder="Extra notes"
           onChange={this.handleOnChange}
         />
       </form>
