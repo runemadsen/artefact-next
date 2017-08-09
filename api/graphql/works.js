@@ -56,6 +56,10 @@ export const WorkType = new GraphQLObjectType({
       type: GraphQLString,
       description: 'The text description of the artwork dimensions.'
     },
+    createdAt: {
+      type: GraphQLString,
+      description: 'The date the artwork was created.'
+    },
     artist: {
       type: PersonQueryType,
       description: 'The artist who created the artwork.',
@@ -100,6 +104,7 @@ export const WorkCreateType = new GraphQLInputObjectType({
     depth: { type: GraphQLInt },
     dimensionUnit: { type: GraphQLString },
     dimensionText: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
     editioned: { type: GraphQLBoolean },
     artistId: { type: GraphQLInt }
   }
@@ -144,6 +149,7 @@ export const WorkUpdateType = new GraphQLInputObjectType({
     depth: { type: GraphQLInt },
     dimensionUnit: { type: GraphQLString },
     dimensionText: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
     editioned: { type: GraphQLBoolean },
     artistId: { type: GraphQLInt }
   }

@@ -28,8 +28,8 @@ async function find(table, attr, cb) {
   query = query.toParam();
 
   const result = await db(query.text, query.values);
-
-  return result[0];
+  const rows = humps.camelizeKeys(result[0])
+  return rows;
 }
 
 async function create(table, attr, cb) {

@@ -33,13 +33,14 @@ CREATE TABLE people (
 CREATE TABLE works (
   id bigserial primary key,
   user_id bigserial REFERENCES users (id) NOT NULL,
-  title text DEFAULT 'Untitled',
+  title text,
   medium text,
   width numeric,
   height numeric,
   depth numeric,
   dimension_unit text,
   dimension_text text,
+  notes text,
   editioned boolean DEFAULT false,
   artist_id bigint REFERENCES people (id),
   created_at timestamp with time zone
