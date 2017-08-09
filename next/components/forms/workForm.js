@@ -68,7 +68,7 @@ export default class WorkForm extends Component {
         />
         <Input
           label=" "
-          name="dimensions_words"
+          name="dimensionText"
           value={this.state.dimensionText}
           placeholder="Or describe it in words"
           onChange={this.handleOnChange}
@@ -87,7 +87,7 @@ export default class WorkForm extends Component {
         <Textarea
           label="Notes"
           name="notes"
-          value={work.dimensions_words}
+          value=""
           placeholder="Extra notes"
           onChange={this.handleOnChange}
         />
@@ -96,7 +96,7 @@ export default class WorkForm extends Component {
   }
 }
 
-NewWorkForm.propTypes = {
+WorkForm.propTypes = {
   work: PropTypes.object.isRequired,
   contacts: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired

@@ -1,6 +1,6 @@
 import Header from "../components/base/header";
 import Main from "../components/base/main";
-import NewWorkForm from "../components/forms/newWorkForm";
+import WorkForm from "../components/forms/workForm";
 import { graphqlRequest } from "../utils/api";
 
 const Works = props => {
@@ -13,7 +13,7 @@ const Works = props => {
       <Main>
         <h1>New Work</h1>
         <p>This is the new work page.</p>
-        <NewWorkForm onChange={handleOnChange} work={props.work} contacts={props.viewer.contacts.edges.map(c => c.node)} />
+        <WorkForm onChange={handleOnChange} work={props.work} contacts={props.viewer.contacts.edges.map(c => c.node)} />
       </Main>
     </div>
   );
