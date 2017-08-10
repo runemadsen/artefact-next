@@ -58,7 +58,7 @@ const ListItem = props => {
             </span>
           : null}
       </div>
-      <Link route="Work" params={{ id: work.id }}>edit</Link>
+      <Link route="Work" params={{ id: work.id }}><a>edit</a></Link>
     </div>
   );
 };
