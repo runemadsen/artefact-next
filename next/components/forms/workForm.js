@@ -9,15 +9,15 @@ import Dimensions from "../fields/dimensions";
 import Toggle from "../fields/toggle";
 
 export default class WorkForm extends Component {
+
   constructor(props) {
     super(props);
-    this.state = props.work;
+    this.state = Object.assign({}, props.work);
     this.handleOnChange = this.handleOnChange.bind(this);
   }
 
   handleOnChange(name, value) {
     this.props.onChange(name, value);
-    // this is temporary. is it?
     let newState = {};
     newState[name] = value;
     this.setState(newState);

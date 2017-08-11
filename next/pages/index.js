@@ -42,7 +42,7 @@ const onProfileChange = async (name, data) => {
   console.log("changed %s to %s", name, data);
 };
 
-const Index = props => {
+const IndexPage = props => {
   return (
     <div>
       <Header viewer={props.viewer} title="Artefact" />
@@ -56,7 +56,7 @@ const Index = props => {
   );
 };
 
-Index.getInitialProps = async ({ req }) => {
+IndexPage.getInitialProps = async ({ req }) => {
   const res = await graphqlRequest(`query {
     viewer {
       id
@@ -67,4 +67,4 @@ Index.getInitialProps = async ({ req }) => {
   return json.data
 }
 
-export default Index;
+export default IndexPage;

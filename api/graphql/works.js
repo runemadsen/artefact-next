@@ -17,7 +17,7 @@ import {
 
 import { nodeInterface } from './node';
 import { AUTH_ERROR, EMPTY_ERROR } from '../constants';
-import { find, create } from '../db';
+import { find, create, update } from '../db';
 import { ContactType } from './contacts';
 
 // Query
@@ -110,22 +110,22 @@ export const WorkCreateType = new GraphQLInputObjectType({
   }
 });
 
-export const createWork = async (value, { work }, req) => {
+export const createWork = async (value, { input }, req) => {
 
   if(!req.user) {
     throw new GraphQLError(AUTH_ERROR);
   }
 
   // If no work attributes are specified
-  if(!work) {
-    work = {}
+  if(!input) {
+    input = {}
   }
 
   // Make work belong to logged in user
-  work.userId = req.user.id;
+  input.userId = req.user.id;
 
   // Create work
-  const workRow = await create('works', work).then((rows) => rows[0]);
+  const workRow = await create('works', input).then((rows) => rows[0]);
 
   // Create edition if needed
   if(!work.editioned) {
@@ -155,17 +155,18 @@ export const WorkUpdateType = new GraphQLInputObjectType({
   }
 });
 
-export const updateWork = (value, { work }, req) => {
+export const updateWork = async (value, { input }, req) => {
 
   if(!req.user) {
     throw new GraphQLError(AUTH_ERROR);
   }
 
-  if(!work) {
+  if(!input) {
     throw new GraphQLError(EMPTY_ERROR);
   }
 
   // HANDLE EDITIONS!
 
-  return create('works', work).then((rows) => rows[0])
+  const workRow = await update('works', input).then((rows) => rows[0])
+  return workRow
 }

@@ -20,7 +20,7 @@ const newWorkSubmit = async e => {
   Router.pushRoute("Work", { id: json.data.createWork.id });
 };
 
-const Works = props => {
+const WorksPage = props => {
   return (
     <div>
       <Header viewer={props.viewer} />
@@ -49,7 +49,7 @@ const Works = props => {
   );
 };
 
-Works.getInitialProps = async ({ req }) => {
+WorksPage.getInitialProps = async ({ req }) => {
   const res = await graphqlRequest(
     `query {
     viewer {
@@ -75,4 +75,4 @@ Works.getInitialProps = async ({ req }) => {
   const json = await res.json();
   return json.data;
 };
-export default Works;
+export default WorksPage;

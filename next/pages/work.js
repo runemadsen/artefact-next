@@ -3,10 +3,21 @@ import Main from "../components/base/main";
 import WorkForm from "../components/forms/workForm";
 import { graphqlRequest } from "../utils/api";
 
-const Works = props => {
+let saveTimeouts = {};
+
+const WorkPage = props => {
+
   const handleOnChange = (k, v) => {
-    console.log("changed %s to %s", k, v);
+
+    if(saveTimeouts[k]) {
+      clearTimeout(saveTimeouts[k]);
+    }
+
+    saveTimeouts[k] = setTimeout(() => {
+      console.log("SAVING %s as %s", k, v);
+    }, 1000)
   };
+
   return (
     <div>
       <Header viewer={props.viewer} />
@@ -19,10 +30,10 @@ const Works = props => {
   );
 };
 
-Works.getInitialProps = async ({ req, query }) => {
+WorkPage.getInitialProps = async ({ req, query }) => {
 
   // TODO: This currently loads all artists in contacts and passes
-  // to the dropdown selector. Should we limit it? Make field do HTTP requests?
+  // to the dropdown selector. Should we limit it? Make search field do HTTP requests?
   const res = await graphqlRequest(`query {
     viewer {
       id
@@ -50,4 +61,4 @@ Works.getInitialProps = async ({ req, query }) => {
   return json.data
 }
 
-export default Works;
+export default WorkPage;

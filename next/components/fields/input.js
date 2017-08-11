@@ -54,7 +54,7 @@ export default class Input extends Component {
               name={props.name}
               type={type}
               step={props.step}
-              value={props.value}
+              value={props.value || ""}
               placeholder={props.placeholder}
               onChange={this.onChange}
               autoCapitalize={props.autoCapitalize}
